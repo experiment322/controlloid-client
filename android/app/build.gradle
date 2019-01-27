@@ -131,6 +131,16 @@ android {
             }
         }
     }
+
+    packagingOptions {
+        pickFirst '**/libjsc.so'
+    }
+}
+
+configurations.all {
+    resolutionStrategy {
+        force 'org.webkit:android-jsc:r236355'
+    }
 }
 
 dependencies {
