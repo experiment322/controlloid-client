@@ -2,12 +2,12 @@ import _ from 'lodash';
 import React from 'react';
 import { Alert } from 'react-native';
 import { TextDecoder } from 'text-encoding';
-import { Analog, Button } from './gamepad';
 import { TouchDispenser } from './input';
+import { Analog, Button } from './controller';
 
 const SOCKET_MIN_LATENCY = 25;
 
-const GAMEPAD_COMPONENT_MAPPING = {
+const CONTROLLER_COMPONENT_MAPPING = {
   analog: Analog,
   button: Button,
 };
@@ -103,9 +103,9 @@ export default class App extends React.Component {
       }}
       >
         {components.map((component) => {
-          const GamepadComponent = GAMEPAD_COMPONENT_MAPPING[component.type];
+          const ControllerComponent = CONTROLLER_COMPONENT_MAPPING[component.type];
           return (
-            <GamepadComponent
+            <ControllerComponent
               {...component.props}
               key={component.id}
               dispatch={this.socketDispatch}
