@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Animated, View } from 'react-native';
-import { TouchReceiverMixin } from '../input';
+import { TouchReceiverMixin } from '../lib';
 
 const ANALOG_STICK_MAX = 32767;
 

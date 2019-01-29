@@ -2,8 +2,8 @@ import _ from 'lodash';
 import React from 'react';
 import { Alert } from 'react-native';
 import { TextDecoder } from 'text-encoding';
-import { TouchDispenser } from './input';
 import { Analog, Button } from './controller';
+import { TouchDispenser } from './lib';
 
 const SOCKET_MIN_LATENCY = 25;
 
@@ -59,7 +59,7 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    const socket = Object.assign(new WebSocket('ws://localhost:1337'), {
+    const socket = Object.assign(new WebSocket('ws://localhost:31415'), {
       onopen: () => Alert.alert('info', 'connected'),
       onerror: error => Alert.alert('error', error.message),
       onclose: status => Alert.alert('closed', status.message),

@@ -11,7 +11,7 @@
     "lodash": "^4.17.11",
     "prop-types": "^15.6.2",
     "react": "16.6.3",
-    "react-native": "0.58.2",
+    "react-native": "0.58.3",
     "react-native-gesture-handler": "^1.0.15",
     "react-navigation": "^3.0.9",
     "text-encoding": "^0.7.0"

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Animated } from 'react-native';
-import { TouchReceiverMixin } from '../input';
+import { TouchReceiverMixin } from '../lib';
 
 export default class Button extends TouchReceiverMixin(React.Component) {
   static propTypes = {
