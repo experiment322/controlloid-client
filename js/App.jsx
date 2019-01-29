@@ -1,118 +1,103 @@
-import _ from 'lodash';
 import React from 'react';
-import { Alert } from 'react-native';
-import { TextDecoder } from 'text-encoding';
-import { Analog, Button } from './controller';
-import { TouchDispenser } from './lib';
-
-const SOCKET_MIN_LATENCY = 25;
-
-const CONTROLLER_COMPONENT_MAPPING = {
-  analog: Analog,
-  button: Button,
-};
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import { StatusBar } from 'react-native';
+import { DarkTheme, Provider as PaperProvider } from 'react-native-paper';
+import { createAppContainer, createDrawerNavigator, createStackNavigator } from 'react-navigation';
+import {
+  ConnectionScreen,
+  ControllerScreen,
+  EditorScreen,
+  HomeScreen,
+  PreferencesScreen,
+} from './screens';
 
 export default class App extends React.Component {
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
     this.state = {
-      socket: null,
-      eventCodes: {},
-      components: [
-        {
-          id: 1,
-          type: 'button',
-          props: {
-            x: 25,
-            y: 350,
-            size: 75,
-            emit: 'BTN_WEST',
-            bgColor: 'blue',
-            fgColor: 'red',
-          },
-        }, {
-          id: 2,
-          type: 'button',
-          props: {
-            x: 25,
-            y: 425,
-            size: 75,
-            emit: 'BTN_EAST',
-            bgColor: 'blue',
-            fgColor: 'red',
-          },
-        }, {
-          id: 3,
-          type: 'analog',
-          props: {
-            x: 25,
-            y: 50,
-            size: 100,
-            emitX: 'ABS_X',
-            emitY: 'ABS_Y',
-            bgColor: 'blue',
-            fgColor: 'red',
-          },
-        },
-      ],
+      theme: DarkTheme,
     };
   }
 
-  componentDidMount() {
-    const socket = Object.assign(new WebSocket('ws://localhost:31415'), {
-      onopen: () => Alert.alert('info', 'connected'),
-      onerror: error => Alert.alert('error', error.message),
-      onclose: status => Alert.alert('closed', status.message),
-      onmessage: message => this.setState({ eventCodes: JSON.parse(new TextDecoder('utf8').decode(message.data)) }),
-    });
-    this.setState({ socket });
-  }
-
-  componentWillUnmount() {
-    const { socket } = this.state;
-    socket.close();
-  }
-
-  socketFlush = () => {
-    const { eventCodes, socket } = this.state;
-    const eventData = _.flatMap(socket.dispatchQueue, (value, name) => [eventCodes[name], value]);
-    socket.send(new Int16Array(eventData));
-    clearTimeout(socket.dispatchTimeout);
-    socket.dispatchTimeout = null;
-    socket.dispatchQueue = null;
-  };
-
-  socketDispatch = (data, isCritical) => {
-    const { socket } = this.state;
-    if (socket && socket.readyState === WebSocket.OPEN) {
-      socket.dispatchQueue = _.assign(socket.dispatchQueue, data);
-      if (isCritical) {
-        this.socketFlush();
-      } else if (!socket.dispatchTimeout) {
-        socket.dispatchTimeout = setTimeout(this.socketFlush, SOCKET_MIN_LATENCY);
-      }
-    }
-  };
-
   render() {
-    const { components } = this.state;
+    const { theme } = this.state;
     return (
-      <TouchDispenser style={{
-        flex: 1,
-        backgroundColor: 'white',
-      }}
-      >
-        {components.map((component) => {
-          const ControllerComponent = CONTROLLER_COMPONENT_MAPPING[component.type];
-          return (
-            <ControllerComponent
-              {...component.props}
-              key={component.id}
-              dispatch={this.socketDispatch}
-            />
-          );
-        })}
-      </TouchDispenser>
+      <PaperProvider theme={theme}>
+        <StatusBar hidden />
+        <AppContainer />
+      </PaperProvider>
     );
   }
 }
+
+const lockDrawerOnController = ({ routeName }) => (
+  routeName === 'Controller' ? 'locked-closed' : 'unlocked'
+);
+
+const AppNavigator = createDrawerNavigator({
+  HomeScreenContainer: {
+    screen: createStackNavigator({
+      Home: {
+        screen: HomeScreen,
+        navigationOptions: {
+          title: 'Controlloid',
+        },
+      },
+    }),
+    navigationOptions: {
+      title: 'Home',
+      drawerIcon: <MaterialIcon name="home" size={24} />,
+    },
+  },
+  EditorScreenContainer: {
+    screen: createStackNavigator({
+      Editor: {
+        screen: EditorScreen,
+        navigationOptions: {
+          title: 'Edit layouts',
+        },
+      },
+    }),
+    navigationOptions: {
+      title: 'Editor',
+      drawerIcon: <MaterialIcon name="edit" size={24} />,
+    },
+  },
+  ConnectionScreenContainer: {
+    screen: createStackNavigator({
+      Connection: {
+        screen: ConnectionScreen,
+        navigationOptions: {
+          title: 'Connect and play',
+        },
+      },
+      Controller: {
+        screen: ControllerScreen,
+        navigationOptions: {
+          header: null,
+        },
+      },
+    }),
+    navigationOptions: ({ navigation: { state: { index, routes } } }) => ({
+      title: 'Connect',
+      drawerIcon: <MaterialIcon name="link" size={24} />,
+      drawerLockMode: lockDrawerOnController(routes[index]),
+    }),
+  },
+  PreferencesScreenContainer: {
+    screen: createStackNavigator({
+      Preferences: {
+        screen: PreferencesScreen,
+        navigationOptions: {
+          title: 'Change preferences',
+        },
+      },
+    }),
+    navigationOptions: {
+      title: 'Preferences',
+      drawerIcon: <MaterialIcon name="settings" size={24} />,
+    },
+  },
+});
+
+const AppContainer = createAppContainer(AppNavigator);
