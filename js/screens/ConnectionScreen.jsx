@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { TextDecoder } from 'text-encoding';
 import { Button, Surface, TextInput } from 'react-native-paper';
 
@@ -100,18 +101,20 @@ export default class ConnectionScreen extends React.Component {
           mode="flat"
           label="Server address"
           value={socketAddress}
+          disabled={loading}
           onChangeText={this.setSocketAddress}
         />
         <Button
           mode="text"
           icon="launch"
-          style={{ elevation: 1 }}
+          style={{ elevation: 3 }}
           onPress={this.connectToSocket}
           loading={loading}
-          disabled={!socketAddress}
+          disabled={loading || !socketAddress}
         >
           CONNECT
         </Button>
+        <KeyboardSpacer />
       </Surface>
     );
   }
