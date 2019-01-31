@@ -26,7 +26,7 @@ class ConnectionScreen extends React.Component {
     };
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
     const { navigation } = this.props;
     const { eventCodes, isSocketConnected } = this.state;
     if (isSocketConnected && eventCodes) {
@@ -34,7 +34,7 @@ class ConnectionScreen extends React.Component {
         socketClose: this.socketClose,
         socketDispatch: this.socketDispatch,
       });
-    } else {
+    } else if (prevState.isSocketConnected && !isSocketConnected) {
       navigation.navigate('Connection');
     }
   }
@@ -97,6 +97,8 @@ class ConnectionScreen extends React.Component {
         <TextInput
           mode="outlined"
           label="Server address"
+          autoCorrect={false}
+          autoCapitalize="none"
           value={socketAddress}
           error={socketAddress && !isUrl(socketAddress)}
           disabled={loading}

@@ -4,6 +4,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { Provider as StoreProvider } from 'react-redux';
 import { DarkTheme, Provider as PaperProvider } from 'react-native-paper';
 import { createAppContainer, createDrawerNavigator, createStackNavigator } from 'react-navigation';
+import { configureStore } from './redux';
 import {
   ConnectionScreen,
   ControllerScreen,
@@ -11,7 +12,6 @@ import {
   HomeScreen,
   PreferencesScreen,
 } from './screens';
-import { configureStore } from './redux';
 
 const lockDrawerOnController = ({ routeName }) => (
   routeName === 'Controller' ? 'locked-closed' : 'unlocked'

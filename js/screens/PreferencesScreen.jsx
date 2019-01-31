@@ -39,9 +39,10 @@ class PreferencesScreen extends React.Component {
 
   saveAnalogStickMax = () => {
     const { analogStickMax } = this.state;
+    const { saveAnalogStickMax } = this.props;
     if (this.validateAnalogStickMax(analogStickMax)) {
-      const { saveAnalogStickMax } = this.props;
       saveAnalogStickMax(Number(analogStickMax));
+      this.setAnalogStickMax(Number(analogStickMax));
     }
   };
 
@@ -52,9 +53,10 @@ class PreferencesScreen extends React.Component {
 
   saveSocketMinLatency = () => {
     const { socketMinLatency } = this.state;
+    const { saveSocketMinLatency } = this.props;
     if (this.validateSocketMinLatency(socketMinLatency)) {
-      const { saveSocketMinLatency } = this.props;
       saveSocketMinLatency(Number(socketMinLatency));
+      this.setSocketMinLatency(Number(socketMinLatency));
     }
   };
 
