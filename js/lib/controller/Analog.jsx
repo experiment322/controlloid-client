@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Animated, View } from 'react-native';
-import { TouchReceiverMixin } from '../lib';
-
-const ANALOG_STICK_MAX = 32767;
+import { TouchReceiverMixin } from '../utils';
 
 export default class Analog extends TouchReceiverMixin(React.Component) {
   static propTypes = {
@@ -15,6 +13,7 @@ export default class Analog extends TouchReceiverMixin(React.Component) {
     dispatch: PropTypes.func.isRequired,
     emitX: PropTypes.string.isRequired,
     emitY: PropTypes.string.isRequired,
+    analogStickMax: PropTypes.number.isRequired,
   };
 
   static getDerivedStateFromProps({ x, y, size }, { centerX, centerY, halfSize }) {
@@ -41,14 +40,16 @@ export default class Analog extends TouchReceiverMixin(React.Component) {
 
   analogMove(position) {
     const { centerX, centerY, halfSize } = this.state;
+    const {
+      dispatch, emitX, emitY, analogStickMax,
+    } = this.props;
     const clampedPosition = {
       x: Math.min(halfSize, Math.max(-halfSize, position.x - centerX)),
       y: Math.min(halfSize, Math.max(-halfSize, position.y - centerY)),
     };
-    const { dispatch, emitX, emitY } = this.props;
     dispatch({
-      [emitX]: Math.round((clampedPosition.x / halfSize) * ANALOG_STICK_MAX),
-      [emitY]: Math.round((clampedPosition.y / halfSize) * ANALOG_STICK_MAX),
+      [emitX]: Math.round((clampedPosition.x / halfSize) * analogStickMax),
+      [emitY]: Math.round((clampedPosition.y / halfSize) * analogStickMax),
     }, false);
     this.translation.setValue(clampedPosition);
   }

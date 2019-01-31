@@ -1,6 +1,7 @@
 import React from 'react';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import { StatusBar } from 'react-native';
+import { PersistGate } from 'redux-persist/integration/react';
+import { Provider as StoreProvider } from 'react-redux';
 import { DarkTheme, Provider as PaperProvider } from 'react-native-paper';
 import { createAppContainer, createDrawerNavigator, createStackNavigator } from 'react-navigation';
 import {
@@ -10,25 +11,7 @@ import {
   HomeScreen,
   PreferencesScreen,
 } from './screens';
-
-export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      theme: DarkTheme,
-    };
-  }
-
-  render() {
-    const { theme } = this.state;
-    return (
-      <PaperProvider theme={theme}>
-        <StatusBar hidden />
-        <AppContainer />
-      </PaperProvider>
-    );
-  }
-}
+import { configureStore } from './redux';
 
 const lockDrawerOnController = ({ routeName }) => (
   routeName === 'Controller' ? 'locked-closed' : 'unlocked'
@@ -101,3 +84,27 @@ const AppNavigator = createDrawerNavigator({
 });
 
 const AppContainer = createAppContainer(AppNavigator);
+
+const { store, persistor } = configureStore();
+
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      theme: DarkTheme,
+    };
+  }
+
+  render() {
+    const { theme } = this.state;
+    return (
+      <StoreProvider store={store}>
+        <PersistGate persistor={persistor}>
+          <PaperProvider theme={theme}>
+            <AppContainer />
+          </PaperProvider>
+        </PersistGate>
+      </StoreProvider>
+    );
+  }
+}

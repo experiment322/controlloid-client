@@ -1,16 +1,12 @@
 import React from 'react';
 import { Surface } from 'react-native-paper';
+import Styles from './styles';
 
 // eslint-disable-next-line react/prefer-stateless-function
 export default class HomeScreen extends React.Component {
   render() {
     return (
-      <Surface style={{
-        flex: 1,
-        padding: 16,
-        justifyContent: 'center',
-      }}
-      />
+      <Surface style={Styles.screen} />
     );
   }
 }

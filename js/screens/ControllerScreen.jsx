@@ -1,18 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TouchDispenser } from '../lib';
-import { Analog, Button } from '../controller';
+import { connect } from 'react-redux';
+import { StatusBar } from 'react-native';
+import { TouchDispenser } from '../lib/utils';
+import { Analog, Button } from '../lib/controller';
+import Styles from './styles';
 
 const CONTROLLER_COMPONENT_MAPPING = {
   analog: Analog,
   button: Button,
 };
 
-export default class ControllerScreen extends React.Component {
+class ControllerScreen extends React.Component {
   static propTypes = {
     navigation: PropTypes.shape({
       getParam: PropTypes.func.isRequired,
     }).isRequired,
+    analogStickMax: PropTypes.number.isRequired,
   };
 
   constructor(props, context) {
@@ -58,20 +62,21 @@ export default class ControllerScreen extends React.Component {
     };
   }
 
+  componentDidMount() {
+    StatusBar.setHidden(true);
+  }
+
   componentWillUnmount() {
     const { navigation } = this.props;
     navigation.getParam('socketClose')();
+    StatusBar.setHidden(false);
   }
 
   render() {
     const { components } = this.state;
-    const { navigation } = this.props;
+    const { navigation, analogStickMax } = this.props;
     return (
-      <TouchDispenser style={{
-        flex: 1,
-        backgroundColor: 'black',
-      }}
-      >
+      <TouchDispenser style={Styles.fullScreen}>
         {components.map((component) => {
           const ControllerComponent = CONTROLLER_COMPONENT_MAPPING[component.type];
           return (
@@ -79,6 +84,7 @@ export default class ControllerScreen extends React.Component {
               {...component.props}
               key={component.id}
               dispatch={navigation.getParam('socketDispatch')}
+              analogStickMax={component.type === 'analog' ? analogStickMax : undefined}
             />
           );
         })}
@@ -86,3 +92,9 @@ export default class ControllerScreen extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  analogStickMax: state.preferences.analogStickMax,
+});
+
+export default connect(mapStateToProps)(ControllerScreen);

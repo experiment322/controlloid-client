@@ -1,17 +1,18 @@
 import _ from 'lodash';
 import React from 'react';
+import isUrl from 'is-url';
 import PropTypes from 'prop-types';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
+import { connect } from 'react-redux';
 import { TextDecoder } from 'text-encoding';
 import { Button, Surface, TextInput } from 'react-native-paper';
+import Styles from './styles';
 
-const SOCKET_MIN_LATENCY = 25;
-
-export default class ConnectionScreen extends React.Component {
+class ConnectionScreen extends React.Component {
   static propTypes = {
     navigation: PropTypes.shape({
       navigate: PropTypes.func.isRequired,
     }).isRequired,
+    socketMinLatency: PropTypes.number.isRequired,
   };
 
   constructor(props) {
@@ -56,12 +57,13 @@ export default class ConnectionScreen extends React.Component {
 
   socketDispatch = (data, isCritical) => {
     const { socket } = this.state;
+    const { socketMinLatency } = this.props;
     if (socket && socket.readyState === WebSocket.OPEN) {
       socket.dispatchQueue = _.assign(socket.dispatchQueue, data);
       if (isCritical) {
         this.socketFlush();
       } else if (!socket.dispatchTimeout) {
-        socket.dispatchTimeout = setTimeout(this.socketFlush, SOCKET_MIN_LATENCY);
+        socket.dispatchTimeout = setTimeout(this.socketFlush, socketMinLatency);
       }
     }
   };
@@ -71,7 +73,7 @@ export default class ConnectionScreen extends React.Component {
   connectToSocket = () => {
     const { socketAddress } = this.state;
     this.setState({ loading: true });
-    const socket = Object.assign(new WebSocket(`http://${socketAddress}`), {
+    const socket = Object.assign(new WebSocket(`${socketAddress}`), {
       onopen: () => this.setState({
         loading: true,
         isSocketConnected: true,
@@ -91,31 +93,32 @@ export default class ConnectionScreen extends React.Component {
   render() {
     const { loading, socketAddress } = this.state;
     return (
-      <Surface style={{
-        flex: 1,
-        padding: 16,
-        justifyContent: 'center',
-      }}
-      >
+      <Surface style={Styles.screen}>
         <TextInput
-          mode="flat"
+          mode="outlined"
           label="Server address"
           value={socketAddress}
+          error={socketAddress && !isUrl(socketAddress)}
           disabled={loading}
           onChangeText={this.setSocketAddress}
         />
         <Button
-          mode="text"
           icon="launch"
-          style={{ elevation: 3 }}
+          mode="outlined"
+          style={Styles.elevate}
           onPress={this.connectToSocket}
           loading={loading}
-          disabled={loading || !socketAddress}
+          disabled={loading || !socketAddress || !isUrl(socketAddress)}
         >
           CONNECT
         </Button>
-        <KeyboardSpacer />
       </Surface>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  socketMinLatency: state.preferences.socketMinLatency,
+});
+
+export default connect(mapStateToProps)(ConnectionScreen);
