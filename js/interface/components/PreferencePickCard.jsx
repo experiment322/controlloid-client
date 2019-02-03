@@ -28,7 +28,6 @@ class PreferencePickCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      changed: false,
       picking: false,
     };
   }
@@ -40,10 +39,9 @@ class PreferencePickCard extends React.Component {
   pickOption = (option) => {
     const { value, onPick } = this.props;
     if (option.name !== value.name) {
-      this.setState({ changed: true });
-      this.stopPicking();
       onPick(option);
     }
+    this.stopPicking();
   };
 
   renderOptions = () => {
@@ -67,7 +65,7 @@ class PreferencePickCard extends React.Component {
     const {
       name, value, helperText, theme,
     } = this.props;
-    const { changed, picking } = this.state;
+    const { picking } = this.state;
     return (
       <Card style={[Styles.preferenceCard, Styles.elevate, {
         borderColor: theme.colors.text,
@@ -100,7 +98,7 @@ class PreferencePickCard extends React.Component {
               <IconButton style={Styles.pickerArrow} icon="arrow-drop-down-circle" />
             </Surface>
           </Surface>
-          <HelperText type="info" visible={changed}>
+          <HelperText type="info">
             {helperText}
           </HelperText>
         </Card.Content>

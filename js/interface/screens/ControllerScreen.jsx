@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { StatusBar } from 'react-native';
-import { TouchDispenser } from '../lib/utils';
-import { Analog, Button } from '../lib/controller';
-import Styles from './styles';
+import { TouchDispenser } from '../../lib/utils';
+import { Analog, Button } from '../../lib/controller';
+import Styles from '../styles';
 
 const CONTROLLER_COMPONENT_MAPPING = {
   analog: Analog,
@@ -13,9 +13,7 @@ const CONTROLLER_COMPONENT_MAPPING = {
 
 class ControllerScreen extends React.Component {
   static propTypes = {
-    navigation: PropTypes.shape({
-      getParam: PropTypes.func.isRequired,
-    }).isRequired,
+    navigation: PropTypes.shape({ getParam: PropTypes.func.isRequired }).isRequired,
     analogStickMax: PropTypes.number.isRequired,
   };
 

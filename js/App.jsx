@@ -10,7 +10,7 @@ import {
   EditorScreen,
   HomeScreen,
   PreferencesScreen,
-} from './screens';
+} from './interface/screens';
 
 const lockDrawerOnController = ({ routeName }) => (
   routeName === 'Controller' ? 'locked-closed' : 'unlocked'
@@ -126,6 +126,4 @@ export default class App extends React.Component {
   }
 }
 
-// TODO: make separate folder for screens?
-// TODO: rename "screens" to "interface" maybe
 // TODO: add module aliases

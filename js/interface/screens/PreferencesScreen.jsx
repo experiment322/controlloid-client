@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button, Surface } from 'react-native-paper';
 import { Alert, ScrollView } from 'react-native';
-import * as Themes from './themes';
-import { PreferencesActions } from '../redux';
-import { PreferenceInputCard, PreferencePickCard } from './components';
-import Styles from './styles';
+import * as Themes from '../themes';
+import { PreferencesActions } from '../../redux';
+import { PreferenceInputCard, PreferencePickCard } from '../components';
+import Styles from '../styles';
 
 class PreferencesScreen extends React.Component {
   static propTypes = {
@@ -68,15 +68,15 @@ class PreferencesScreen extends React.Component {
             onPick={value => saveActiveTheme(value)}
           />
           <PreferenceInputCard
-            name="Analog stick range (px)"
-            helperText="Valid values: 1 - 32767"
+            name="Analog stick range"
+            helperText="Valid values: 1 - 32767 (px)"
             value={String(analogStickMax)}
             onValidate={this.validateAnalogStickMax}
             onSubmit={value => saveAnalogStickMax(Number(value))}
           />
           <PreferenceInputCard
-            name="Socket minimum latency (ms)"
-            helperText="Valid values: 0 - 1000"
+            name="Socket minimum latency"
+            helperText="Valid values: 0 - 1000 (ms)"
             value={String(socketMinLatency)}
             onValidate={this.validateSocketMinLatency}
             onSubmit={value => saveSocketMinLatency(Number(value))}

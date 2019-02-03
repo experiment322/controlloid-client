@@ -1,5 +1,5 @@
 import { createActions, createReducer } from 'reduxsauce';
-import { LightTheme } from '../screens/themes';
+import { LightTheme } from '../interface/themes';
 
 const INITIAL_STATE = {
   activeTheme: LightTheme,

@@ -20,14 +20,28 @@ class PreferenceInputCard extends React.Component {
     this.state = {
       text: props.value,
       isTextValid: props.onValidate(props.value),
+      mustSyncState: false,
     };
   }
+
+  componentDidUpdate(prevProps) {
+    const { value } = this.props;
+    const { mustSyncState } = this.state;
+    if (value !== prevProps.value || mustSyncState) {
+      this.syncWithProps();
+    }
+  }
+
+  requireStateSync = () => {
+    this.setState({ mustSyncState: true });
+  };
 
   syncWithProps = () => {
     const { value, onValidate } = this.props;
     this.setState({
       text: value,
       isTextValid: onValidate(value),
+      mustSyncState: false,
     });
   };
 
@@ -45,7 +59,7 @@ class PreferenceInputCard extends React.Component {
     if (isTextValid) {
       onSubmit(text);
     }
-    this.syncWithProps();
+    this.requireStateSync();
   };
 
   render() {
@@ -67,7 +81,7 @@ class PreferenceInputCard extends React.Component {
             onChangeText={this.setText}
             onSubmitEditing={this.submitText}
           />
-          <HelperText type="error" visible={!isTextValid}>
+          <HelperText type="info">
             {helperText}
           </HelperText>
         </Card.Content>
