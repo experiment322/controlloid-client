@@ -1,18 +1,24 @@
 import { createActions, createReducer } from 'reduxsauce';
+import { LightTheme } from '../screens/themes';
 
 const INITIAL_STATE = {
+  activeTheme: LightTheme,
   analogStickMax: 32767,
   socketMinLatency: 0,
 };
 
 export const { Types, Creators: Actions } = createActions({
-  setDefaults: null,
+  setActiveTheme: ['activeTheme'],
   setAnalogStickMax: ['analogStickMax'],
   setSocketMinLatency: ['socketMinLatency'],
+  setDefaults: null,
 });
 
 export const Reducer = createReducer(INITIAL_STATE, {
-  [Types.SET_DEFAULTS]: () => INITIAL_STATE,
+  [Types.SET_ACTIVE_THEME]: (state = INITIAL_STATE, action) => ({
+    ...state,
+    activeTheme: action.activeTheme,
+  }),
   [Types.SET_ANALOG_STICK_MAX]: (state = INITIAL_STATE, action) => ({
     ...state,
     analogStickMax: action.analogStickMax,
@@ -21,4 +27,5 @@ export const Reducer = createReducer(INITIAL_STATE, {
     ...state,
     socketMinLatency: action.socketMinLatency,
   }),
+  [Types.SET_DEFAULTS]: () => INITIAL_STATE,
 });

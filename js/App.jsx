@@ -1,8 +1,7 @@
 import React from 'react';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import { PersistGate } from 'redux-persist/integration/react';
 import { Provider as StoreProvider } from 'react-redux';
-import { DarkTheme, Provider as PaperProvider } from 'react-native-paper';
+import { Provider as PaperProvider } from 'react-native-paper';
 import { createAppContainer, createDrawerNavigator, createStackNavigator } from 'react-navigation';
 import { configureStore } from './redux';
 import {
@@ -91,20 +90,42 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      theme: DarkTheme,
+      activeTheme: null,
     };
   }
 
+  componentDidMount() {
+    this.unsubscribe = persistor.subscribe(() => {
+      if (persistor.getState().bootstrapped) {
+        const { preferences: { activeTheme } } = store.getState();
+        this.setState({ activeTheme });
+        if (this.unsubscribe) {
+          this.unsubscribe();
+        }
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
+  }
+
   render() {
-    const { theme } = this.state;
+    const { activeTheme } = this.state;
     return (
       <StoreProvider store={store}>
-        <PersistGate persistor={persistor}>
-          <PaperProvider theme={theme}>
+        {!!activeTheme && (
+          <PaperProvider theme={activeTheme}>
             <AppContainer />
           </PaperProvider>
-        </PersistGate>
+        )}
       </StoreProvider>
     );
   }
 }
+
+// TODO: make separate folder for screens?
+// TODO: rename "screens" to "interface" maybe
+// TODO: add module aliases
