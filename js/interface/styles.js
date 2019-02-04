@@ -15,13 +15,12 @@ export default StyleSheet.create({
     marginBottom: 16,
   },
   preferencePickerModal: {
-    margin: 32,
-    padding: 16,
+    padding: 8,
     borderRadius: 8,
+    marginHorizontal: 16,
   },
   preferenceCard: {
-    paddingVertical: 16,
-    paddingHorizontal: 8,
+    padding: 8,
   },
   flatListGrowContent: {
     flexGrow: 1,
