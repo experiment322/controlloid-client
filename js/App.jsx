@@ -9,11 +9,12 @@ import {
   ControllerScreen,
   EditorScreen,
   HomeScreen,
+  LayoutsScreen,
   PreferencesScreen,
 } from './interface/screens';
 
-const lockDrawerOnController = ({ routeName }) => (
-  routeName === 'Controller' ? 'locked-closed' : 'unlocked'
+const lockDrawerOnScreen = (screen, { index, routes }) => (
+  screen === routes[index] ? 'locked-closed' : 'unlocked'
 );
 
 const AppNavigator = createDrawerNavigator({
@@ -31,19 +32,26 @@ const AppNavigator = createDrawerNavigator({
       drawerIcon: <MaterialIcon name="home" size={24} />,
     },
   },
-  EditorScreenContainer: {
+  LayoutsScreenContainer: {
     screen: createStackNavigator({
+      Layouts: {
+        screen: LayoutsScreen,
+        navigationOptions: {
+          title: 'Manage layouts',
+        },
+      },
       Editor: {
         screen: EditorScreen,
         navigationOptions: {
-          title: 'Edit layouts',
+          header: null,
         },
       },
     }),
-    navigationOptions: {
-      title: 'Editor',
-      drawerIcon: <MaterialIcon name="edit" size={24} />,
-    },
+    navigationOptions: ({ navigation: { state: navigationState } }) => ({
+      title: 'Layouts',
+      drawerIcon: <MaterialIcon name="layers" size={24} />,
+      drawerLockMode: lockDrawerOnScreen('Editor', navigationState),
+    }),
   },
   ConnectionScreenContainer: {
     screen: createStackNavigator({
@@ -60,10 +68,10 @@ const AppNavigator = createDrawerNavigator({
         },
       },
     }),
-    navigationOptions: ({ navigation: { state: { index, routes } } }) => ({
-      title: 'Connect',
-      drawerIcon: <MaterialIcon name="link" size={24} />,
-      drawerLockMode: lockDrawerOnController(routes[index]),
+    navigationOptions: ({ navigation: { state: navigationState } }) => ({
+      title: 'Controller',
+      drawerIcon: <MaterialIcon name="gamepad" size={24} />,
+      drawerLockMode: lockDrawerOnScreen('Controller', navigationState),
     }),
   },
   PreferencesScreenContainer: {
@@ -125,5 +133,3 @@ export default class App extends React.Component {
     );
   }
 }
-
-// TODO: add module aliases

@@ -2,27 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ScrollView, TextInput as NativeTextInput } from 'react-native';
 import {
-  Card,
   HelperText,
-  IconButton,
   List,
   Modal,
   Portal,
   Surface,
   TextInput,
   TouchableRipple,
-  withTheme,
 } from 'react-native-paper';
 import Styles from '../styles';
 
-class PreferencePickCard extends React.Component {
+export default class PreferencePickCard extends React.Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
     value: PropTypes.shape({ name: PropTypes.string.isRequired }).isRequired,
     options: PropTypes.arrayOf(PropTypes.object).isRequired,
     helperText: PropTypes.string.isRequired,
     onPick: PropTypes.func.isRequired,
-    theme: PropTypes.shape({ colors: PropTypes.object.isRequired }).isRequired,
   };
 
   constructor(props) {
@@ -62,49 +58,33 @@ class PreferencePickCard extends React.Component {
   };
 
   render() {
-    const {
-      name, value, helperText, theme,
-    } = this.props;
+    const { name, value, helperText } = this.props;
     const { picking } = this.state;
     return (
-      <Card style={[Styles.preferenceCard, Styles.elevate, {
-        borderColor: theme.colors.text,
-      }]}
-      >
-        <Card.Content>
-          <Portal>
-            <Modal
-              visible={picking}
-              onDismiss={this.stopPicking}
-              contentContainerStyle={[Styles.pickerModal, {
-                backgroundColor: theme.colors.background,
-              }]}
-            >
+      <Surface style={Styles.preferenceCard}>
+        <TextInput
+          mode="outlined"
+          label={name}
+          value={value.name}
+          render={props => (
+            <TouchableRipple onPress={this.startPicking}>
+              <NativeTextInput {...props} editable={false} />
+            </TouchableRipple>
+          )}
+        />
+        <HelperText type="info">
+          {helperText}
+        </HelperText>
+        <Portal>
+          <Modal visible={picking} onDismiss={this.stopPicking}>
+            <Surface style={Styles.preferencePickerModal}>
               <ScrollView>
                 {this.renderOptions()}
               </ScrollView>
-            </Modal>
-          </Portal>
-          <Surface>
-            <TouchableRipple onPress={this.startPicking}>
-              <TextInput
-                mode="outlined"
-                label={name}
-                value={value.name}
-                render={props => <NativeTextInput {...props} editable={false} />}
-              />
-            </TouchableRipple>
-            <Surface style={Styles.pullRight} pointerEvents="none">
-              <IconButton style={Styles.pickerArrow} icon="arrow-drop-down-circle" />
             </Surface>
-          </Surface>
-          <HelperText type="info">
-            {helperText}
-          </HelperText>
-        </Card.Content>
-      </Card>
+          </Modal>
+        </Portal>
+      </Surface>
     );
   }
 }
-
-export default withTheme(PreferencePickCard);

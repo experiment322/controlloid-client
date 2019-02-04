@@ -14,27 +14,20 @@ export default StyleSheet.create({
     elevation: 1,
     marginBottom: 16,
   },
-  pickerModal: {
+  preferencePickerModal: {
     margin: 32,
     padding: 16,
     borderRadius: 8,
-    backgroundColor: 'gainsboro',
   },
   preferenceCard: {
-    margin: 8,
-    borderWidth: 1,
+    paddingVertical: 16,
+    paddingHorizontal: 8,
   },
-  pullRight: {
-    top: 0,
-    bottom: 0,
-    position: 'absolute',
-    alignSelf: 'flex-end',
-    justifyContent: 'center',
-    backgroundColor: 'transparent',
+  flatListGrowContent: {
+    flexGrow: 1,
   },
-  pickerArrow: {
-    margin: 0,
-    marginTop: 6,
-    marginRight: 8,
+  centeredText: {
+    fontSize: 18,
+    textAlign: 'center',
   },
 });

@@ -1,18 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Card, HelperText, TextInput, withTheme,
-} from 'react-native-paper';
+import { HelperText, Surface, TextInput } from 'react-native-paper';
 import Styles from '../styles';
 
-class PreferenceInputCard extends React.Component {
+export default class PreferenceInputCard extends React.Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
     helperText: PropTypes.string.isRequired,
     onValidate: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    theme: PropTypes.shape({ colors: PropTypes.object.isRequired }).isRequired,
   };
 
   constructor(props) {
@@ -63,31 +60,24 @@ class PreferenceInputCard extends React.Component {
   };
 
   render() {
-    const { name, helperText, theme } = this.props;
+    const { name, helperText } = this.props;
     const { text, isTextValid } = this.state;
     return (
-      <Card style={[Styles.preferenceCard, Styles.elevate, {
-        borderColor: theme.colors.text,
-      }]}
-      >
-        <Card.Content>
-          <TextInput
-            mode="outlined"
-            label={name}
-            value={text}
-            error={!isTextValid}
-            autoCorrect={false}
-            autoCapitalize="none"
-            onChangeText={this.setText}
-            onSubmitEditing={this.submitText}
-          />
-          <HelperText type="info">
-            {helperText}
-          </HelperText>
-        </Card.Content>
-      </Card>
+      <Surface style={Styles.preferenceCard}>
+        <TextInput
+          mode="outlined"
+          label={name}
+          value={text}
+          error={!isTextValid}
+          autoCorrect={false}
+          autoCapitalize="none"
+          onChangeText={this.setText}
+          onSubmitEditing={this.submitText}
+        />
+        <HelperText type="info">
+          {helperText}
+        </HelperText>
+      </Surface>
     );
   }
 }
-
-export default withTheme(PreferenceInputCard);

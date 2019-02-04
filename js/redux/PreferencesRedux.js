@@ -8,24 +8,24 @@ const INITIAL_STATE = {
 };
 
 export const { Types, Creators: Actions } = createActions({
-  setActiveTheme: ['activeTheme'],
-  setAnalogStickMax: ['analogStickMax'],
-  setSocketMinLatency: ['socketMinLatency'],
+  setActiveTheme: ['theme'],
+  setAnalogStickMax: ['value'],
+  setSocketMinLatency: ['value'],
   setDefaults: null,
 });
 
 export const Reducer = createReducer(INITIAL_STATE, {
   [Types.SET_ACTIVE_THEME]: (state = INITIAL_STATE, action) => ({
     ...state,
-    activeTheme: action.activeTheme,
+    activeTheme: action.theme,
   }),
   [Types.SET_ANALOG_STICK_MAX]: (state = INITIAL_STATE, action) => ({
     ...state,
-    analogStickMax: action.analogStickMax,
+    analogStickMax: action.value,
   }),
   [Types.SET_SOCKET_MIN_LATENCY]: (state = INITIAL_STATE, action) => ({
     ...state,
-    socketMinLatency: action.socketMinLatency,
+    socketMinLatency: action.value,
   }),
   [Types.SET_DEFAULTS]: () => INITIAL_STATE,
 });
