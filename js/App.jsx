@@ -13,9 +13,10 @@ import {
   PreferencesScreen,
 } from './interface/screens';
 
-const lockDrawerOnScreen = (screen, { index, routes }) => (
-  screen === routes[index] ? 'locked-closed' : 'unlocked'
-);
+const lockDrawerOnScreen = (screen, { index, routes }) => {
+  const { routeName: currentScreen } = routes[index];
+  return currentScreen === screen ? 'locked-closed' : 'unlocked';
+};
 
 const AppNavigator = createDrawerNavigator({
   HomeScreenContainer: {
