@@ -5937,6 +5937,11 @@ react-native-gesture-handler@^1.0.15, react-native-gesture-handler@~1.0.14:
     invariant "^2.2.2"
     prop-types "^15.5.10"
 
+react-native-orientation-locker@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-orientation-locker/-/react-native-orientation-locker-1.1.2.tgz#9c8a1bb5b2705c4f199f19e093e1393ff60ba010"
+  integrity sha512-NgJldb6DYZ25+Jpxltjnh+ZWyBpTC63V7C2D0YE0MOdSMM3ILxqGRhguiPIOmtTP65qJ1Gafflt999zdo7FORw==
+
 react-native-paper@^2.6.3:
   version "2.9.1"
   resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-2.9.1.tgz#a34de0d09a3d9c577eff2027d42d535a36c67efe"
