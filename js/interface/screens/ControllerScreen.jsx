@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Orientation from 'react-native-orientation-locker';
 import { connect } from 'react-redux';
 import { StatusBar } from 'react-native';
 import { TouchDispenser } from '../../lib/utils';
@@ -25,8 +26,8 @@ class ControllerScreen extends React.Component {
           id: 1,
           type: 'button',
           props: {
-            x: 25,
-            y: 350,
+            x: 400,
+            y: 225,
             size: 75,
             emit: 'BTN_WEST',
             bgColor: 'blue',
@@ -36,8 +37,8 @@ class ControllerScreen extends React.Component {
           id: 2,
           type: 'button',
           props: {
-            x: 25,
-            y: 425,
+            x: 475,
+            y: 225,
             size: 75,
             emit: 'BTN_EAST',
             bgColor: 'blue',
@@ -48,7 +49,7 @@ class ControllerScreen extends React.Component {
           type: 'analog',
           props: {
             x: 25,
-            y: 50,
+            y: 200,
             size: 100,
             emitX: 'ABS_X',
             emitY: 'ABS_Y',
@@ -62,11 +63,13 @@ class ControllerScreen extends React.Component {
 
   componentDidMount() {
     StatusBar.setHidden(true);
+    Orientation.lockToLandscape();
   }
 
   componentWillUnmount() {
     const { navigation } = this.props;
     navigation.getParam('socketClose')();
+    Orientation.unlockAllOrientations();
     StatusBar.setHidden(false);
   }
 

@@ -1,5 +1,7 @@
 import React from 'react';
+import Orientation from 'react-native-orientation-locker';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import { StatusBar } from 'react-native';
 import { Provider as StoreProvider } from 'react-redux';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { createAppContainer, createDrawerNavigator, createStackNavigator } from 'react-navigation';
@@ -113,6 +115,8 @@ export default class App extends React.Component {
         }
       }
     });
+    Orientation.unlockAllOrientations();
+    StatusBar.setHidden(false);
   }
 
   componentWillUnmount() {
