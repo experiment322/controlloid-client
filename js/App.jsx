@@ -101,15 +101,15 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTheme: null,
+      applicationTheme: null,
     };
   }
 
   componentDidMount() {
     this.unsubscribe = persistor.subscribe(() => {
       if (persistor.getState().bootstrapped) {
-        const { preferences: { activeTheme } } = store.getState();
-        this.setState({ activeTheme });
+        const { preferences: { applicationTheme } } = store.getState();
+        this.setState({ applicationTheme });
         if (this.unsubscribe) {
           this.unsubscribe();
         }
@@ -126,11 +126,11 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { activeTheme } = this.state;
+    const { applicationTheme } = this.state;
     return (
       <StoreProvider store={store}>
-        {!!activeTheme && (
-          <PaperProvider theme={activeTheme}>
+        {!!applicationTheme && (
+          <PaperProvider theme={applicationTheme}>
             <AppContainer />
           </PaperProvider>
         )}

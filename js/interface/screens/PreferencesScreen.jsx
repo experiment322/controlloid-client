@@ -4,17 +4,17 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button, Surface } from 'react-native-paper';
 import { Alert, ScrollView } from 'react-native';
-import * as Themes from '../themes';
+import * as ApplicationThemes from '../themes';
 import { PreferencesActions } from '../../redux';
 import { PreferenceInputCard, PreferencePickCard } from '../components';
 import Styles from '../styles';
 
 class PreferencesScreen extends React.Component {
   static propTypes = {
-    activeTheme: PropTypes.shape({ name: PropTypes.string.isRequired }).isRequired,
+    applicationTheme: PropTypes.shape({ name: PropTypes.string.isRequired }).isRequired,
     analogStickMax: PropTypes.number.isRequired,
     socketMinLatency: PropTypes.number.isRequired,
-    saveActiveTheme: PropTypes.func.isRequired,
+    saveApplicationTheme: PropTypes.func.isRequired,
     saveAnalogStickMax: PropTypes.func.isRequired,
     saveSocketMinLatency: PropTypes.func.isRequired,
     resetPreferences: PropTypes.func.isRequired,
@@ -53,19 +53,19 @@ class PreferencesScreen extends React.Component {
 
   render() {
     const {
-      activeTheme, analogStickMax, socketMinLatency,
-      saveActiveTheme, saveAnalogStickMax, saveSocketMinLatency,
+      applicationTheme, analogStickMax, socketMinLatency,
+      saveApplicationTheme, saveAnalogStickMax, saveSocketMinLatency,
     } = this.props;
     const { preferencesKey } = this.state;
     return (
       <Surface style={Styles.screen}>
         <ScrollView key={preferencesKey}>
           <PreferencePickCard
-            name="Theme"
+            name="Application theme"
             helperText="Restart application to apply theme"
-            value={activeTheme}
-            options={_.values(Themes)}
-            onPick={value => saveActiveTheme(value)}
+            value={applicationTheme}
+            options={_.values(ApplicationThemes)}
+            onPick={value => saveApplicationTheme(value)}
           />
           <PreferenceInputCard
             name="Analog stick range"
@@ -96,13 +96,13 @@ class PreferencesScreen extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  activeTheme: state.preferences.activeTheme,
+  applicationTheme: state.preferences.applicationTheme,
   analogStickMax: state.preferences.analogStickMax,
   socketMinLatency: state.preferences.socketMinLatency,
 });
 
 const mapDispatchToProps = {
-  saveActiveTheme: PreferencesActions.setActiveTheme,
+  saveApplicationTheme: PreferencesActions.setApplicationTheme,
   saveAnalogStickMax: PreferencesActions.setAnalogStickMax,
   saveSocketMinLatency: PreferencesActions.setSocketMinLatency,
   resetPreferences: PreferencesActions.setDefaults,
