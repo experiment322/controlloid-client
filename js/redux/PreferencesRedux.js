@@ -1,13 +1,16 @@
 import { createActions, createReducer } from 'reduxsauce';
 import { LightTheme } from '../interface/themes';
+import { ControlloidTheme } from '../lib/controller/themes';
 
 const INITIAL_STATE = {
+  controllerTheme: ControlloidTheme,
   applicationTheme: LightTheme,
   analogStickMax: 32767,
   socketMinLatency: 0,
 };
 
 export const { Types, Creators: Actions } = createActions({
+  setControllerTheme: ['theme'],
   setApplicationTheme: ['theme'],
   setAnalogStickMax: ['value'],
   setSocketMinLatency: ['value'],
@@ -15,6 +18,10 @@ export const { Types, Creators: Actions } = createActions({
 });
 
 export const Reducer = createReducer(INITIAL_STATE, {
+  [Types.SET_CONTROLLER_THEME]: (state = INITIAL_STATE, action) => ({
+    ...state,
+    controllerTheme: action.theme,
+  }),
   [Types.SET_APPLICATION_THEME]: (state = INITIAL_STATE, action) => ({
     ...state,
     applicationTheme: action.theme,

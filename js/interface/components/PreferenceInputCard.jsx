@@ -1,15 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { HelperText, Surface, TextInput } from 'react-native-paper';
 import Styles from '../styles';
+import * as Types from '../../types';
 
 export default class PreferenceInputCard extends React.Component {
   static propTypes = {
-    name: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-    helperText: PropTypes.string.isRequired,
-    onValidate: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
+    name: Types.string.isRequired,
+    value: Types.string.isRequired,
+    helperText: Types.string.isRequired,
+    onValidate: Types.func.isRequired,
+    onSubmit: Types.func.isRequired,
   };
 
   constructor(props) {

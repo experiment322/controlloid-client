@@ -1,19 +1,19 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import SvgUri from 'react-native-svg-uri';
 import { Animated, View } from 'react-native';
+import * as Types from '../../types';
 import { TouchReceiverMixin } from '../utils';
 
 export default class Analog extends TouchReceiverMixin(React.Component) {
   static propTypes = {
-    x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired,
-    size: PropTypes.number.isRequired,
-    fgColor: PropTypes.string.isRequired,
-    bgColor: PropTypes.string.isRequired,
-    dispatch: PropTypes.func.isRequired,
-    emitX: PropTypes.string.isRequired,
-    emitY: PropTypes.string.isRequired,
-    analogStickMax: PropTypes.number.isRequired,
+    x: Types.number.isRequired,
+    y: Types.number.isRequired,
+    size: Types.number.isRequired,
+    emitX: Types.string.isRequired,
+    emitY: Types.string.isRequired,
+    theme: Types.controllerTheme.isRequired,
+    dispatch: Types.func.isRequired,
+    analogStickMax: Types.number.isRequired,
   };
 
   static getDerivedStateFromProps({ x, y, size }, { centerX, centerY, halfSize }) {
@@ -95,7 +95,7 @@ export default class Analog extends TouchReceiverMixin(React.Component) {
 
   render() {
     const {
-      x, y, size, fgColor, bgColor, ...viewProps
+      x, y, size, theme, ...viewProps
     } = this.props;
     return (
       <View
@@ -104,23 +104,26 @@ export default class Analog extends TouchReceiverMixin(React.Component) {
           top: y,
           left: x,
           width: size,
-          aspectRatio: 1,
-          borderRadius: size / 10,
-          backgroundColor: bgColor,
+          height: size,
           position: 'absolute',
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
-        <Animated.View
-          style={{
-            width: size / 1.25,
-            aspectRatio: 1,
-            borderRadius: (size / 1.25) / 2,
-            backgroundColor: fgColor,
-            transform: this.translation.getTranslateTransform(),
-          }}
-        />
+        <View style={{ position: 'absolute' }}>
+          <SvgUri
+            width={size}
+            height={size}
+            svgXmlData={theme.pad}
+          />
+        </View>
+        <Animated.View style={{ transform: this.translation.getTranslateTransform() }}>
+          <SvgUri
+            width={size * 0.75}
+            height={size * 0.75}
+            svgXmlData={theme.knob}
+          />
+        </Animated.View>
       </View>
     );
   }

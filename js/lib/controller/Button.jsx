@@ -1,17 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Animated } from 'react-native';
+import SvgUri from 'react-native-svg-uri';
+import { Animated, View } from 'react-native';
+import * as Types from '../../types';
 import { TouchReceiverMixin } from '../utils';
 
 export default class Button extends TouchReceiverMixin(React.Component) {
   static propTypes = {
-    x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired,
-    size: PropTypes.number.isRequired,
-    fgColor: PropTypes.string.isRequired,
-    bgColor: PropTypes.string.isRequired,
-    dispatch: PropTypes.func.isRequired,
-    emit: PropTypes.string.isRequired,
+    x: Types.number.isRequired,
+    y: Types.number.isRequired,
+    size: Types.number.isRequired,
+    theme: Types.controllerTheme.isRequired,
+    dispatch: Types.func.isRequired,
+    emit: Types.string.isRequired,
   };
 
   constructor(props) {
@@ -66,24 +66,29 @@ export default class Button extends TouchReceiverMixin(React.Component) {
 
   render() {
     const {
-      x, y, size, fgColor, bgColor, ...viewProps
+      x, y, size, theme, ...viewProps
     } = this.props;
     return (
-      <Animated.View
+      <View
         {...viewProps}
         style={{
           top: y,
           left: x,
           width: size,
-          aspectRatio: 1,
-          borderColor: fgColor,
-          borderRadius: size / 2,
-          borderWidth: size / 10,
-          backgroundColor: bgColor,
+          height: size,
           position: 'absolute',
-          opacity: this.opacity,
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
-      />
+      >
+        <Animated.View style={{ opacity: this.opacity }}>
+          <SvgUri
+            width={size}
+            height={size}
+            svgXmlData={theme.knob}
+          />
+        </Animated.View>
+      </View>
     );
   }
 }

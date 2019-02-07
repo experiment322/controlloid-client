@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { ScrollView, TextInput as NativeTextInput } from 'react-native';
 import {
   HelperText,
@@ -11,14 +10,15 @@ import {
   TouchableRipple,
 } from 'react-native-paper';
 import Styles from '../styles';
+import * as Types from '../../types';
 
 export default class PreferencePickCard extends React.Component {
   static propTypes = {
-    name: PropTypes.string.isRequired,
-    value: PropTypes.shape({ name: PropTypes.string.isRequired }).isRequired,
-    options: PropTypes.arrayOf(PropTypes.object).isRequired,
-    helperText: PropTypes.string.isRequired,
-    onPick: PropTypes.func.isRequired,
+    name: Types.string.isRequired,
+    value: Types.namedShape.isRequired,
+    options: Types.arrayOfNamedShapes.isRequired,
+    helperText: Types.string.isRequired,
+    onPick: Types.func.isRequired,
   };
 
   constructor(props) {

@@ -1,23 +1,23 @@
 import _ from 'lodash';
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button, Surface } from 'react-native-paper';
 import { Alert, ScrollView } from 'react-native';
+import Styles from '../styles';
+import * as Types from '../../types';
 import * as ApplicationThemes from '../themes';
 import { PreferencesActions } from '../../redux';
 import { PreferenceInputCard, PreferencePickCard } from '../components';
-import Styles from '../styles';
 
 class PreferencesScreen extends React.Component {
   static propTypes = {
-    applicationTheme: PropTypes.shape({ name: PropTypes.string.isRequired }).isRequired,
-    analogStickMax: PropTypes.number.isRequired,
-    socketMinLatency: PropTypes.number.isRequired,
-    saveApplicationTheme: PropTypes.func.isRequired,
-    saveAnalogStickMax: PropTypes.func.isRequired,
-    saveSocketMinLatency: PropTypes.func.isRequired,
-    resetPreferences: PropTypes.func.isRequired,
+    applicationTheme: Types.applicationTheme.isRequired,
+    analogStickMax: Types.number.isRequired,
+    socketMinLatency: Types.number.isRequired,
+    saveApplicationTheme: Types.func.isRequired,
+    saveAnalogStickMax: Types.func.isRequired,
+    saveSocketMinLatency: Types.func.isRequired,
+    resetPreferences: Types.func.isRequired,
   };
 
   constructor(props) {

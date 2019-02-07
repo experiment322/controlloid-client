@@ -1,13 +1,13 @@
 import _ from 'lodash';
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FlatList } from 'react-native';
 import {
   List, Surface, Text, TextInput, TouchableRipple,
 } from 'react-native-paper';
-import { LayoutsActions } from '../../redux';
 import Styles from '../styles';
+import * as Types from '../../types';
+import { LayoutsActions } from '../../redux';
 
 class LayoutsScreen extends React.Component {
   static defaultProps = {
@@ -15,11 +15,11 @@ class LayoutsScreen extends React.Component {
   };
 
   static propTypes = {
-    layouts: PropTypes.objectOf(PropTypes.object.isRequired).isRequired,
-    activeLayout: PropTypes.string,
-    createLayout: PropTypes.func.isRequired,
-    deleteLayout: PropTypes.func.isRequired,
-    setActiveLayout: PropTypes.func.isRequired,
+    layouts: Types.objectOfControllerLayouts.isRequired,
+    activeLayout: Types.string,
+    createLayout: Types.func.isRequired,
+    deleteLayout: Types.func.isRequired,
+    setActiveLayout: Types.func.isRequired,
   };
 
   constructor(props) {
@@ -65,7 +65,10 @@ class LayoutsScreen extends React.Component {
       .trim()
       .slice(0, 256);
     if (newLayoutName && !_.has(layouts, newLayoutName)) {
-      createLayout(newLayoutName, {});
+      createLayout(newLayoutName, {
+        name: newLayoutName,
+        components: [],
+      });
     }
     this.layoutInputRef.current.clear();
   };

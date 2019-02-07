@@ -1,11 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Orientation from 'react-native-orientation-locker';
 import { connect } from 'react-redux';
 import { StatusBar } from 'react-native';
+import Styles from '../styles';
+import * as Types from '../../types';
 import { TouchDispenser } from '../../lib/utils';
 import { Analog, Button } from '../../lib/controller';
-import Styles from '../styles';
 
 const CONTROLLER_COMPONENT_MAPPING = {
   analog: Analog,
@@ -14,8 +14,9 @@ const CONTROLLER_COMPONENT_MAPPING = {
 
 class ControllerScreen extends React.Component {
   static propTypes = {
-    navigation: PropTypes.shape({ getParam: PropTypes.func.isRequired }).isRequired,
-    analogStickMax: PropTypes.number.isRequired,
+    navigation: Types.navigation.isRequired,
+    analogStickMax: Types.number.isRequired,
+    controllerTheme: Types.controllerTheme.isRequired,
   };
 
   constructor(props) {
@@ -26,35 +27,29 @@ class ControllerScreen extends React.Component {
           id: 1,
           type: 'button',
           props: {
-            x: 400,
+            x: 350,
             y: 225,
             size: 75,
             emit: 'BTN_WEST',
-            bgColor: 'blue',
-            fgColor: 'red',
           },
         }, {
           id: 2,
           type: 'button',
           props: {
-            x: 475,
+            x: 425,
             y: 225,
             size: 75,
             emit: 'BTN_EAST',
-            bgColor: 'blue',
-            fgColor: 'red',
           },
         }, {
           id: 3,
           type: 'analog',
           props: {
-            x: 25,
+            x: 50,
             y: 200,
             size: 100,
             emitX: 'ABS_X',
             emitY: 'ABS_Y',
-            bgColor: 'blue',
-            fgColor: 'red',
           },
         },
       ],
@@ -75,7 +70,7 @@ class ControllerScreen extends React.Component {
 
   render() {
     const { components } = this.state;
-    const { navigation, analogStickMax } = this.props;
+    const { navigation, analogStickMax, controllerTheme } = this.props;
     return (
       <TouchDispenser style={Styles.fullScreen}>
         {components.map((component) => {
@@ -84,6 +79,7 @@ class ControllerScreen extends React.Component {
             <ControllerComponent
               {...component.props}
               key={component.id}
+              theme={controllerTheme}
               dispatch={navigation.getParam('socketDispatch')}
               analogStickMax={component.type === 'analog' ? analogStickMax : undefined}
             />
@@ -96,6 +92,7 @@ class ControllerScreen extends React.Component {
 
 const mapStateToProps = state => ({
   analogStickMax: state.preferences.analogStickMax,
+  controllerTheme: state.preferences.controllerTheme,
 });
 
 export default connect(mapStateToProps)(ControllerScreen);

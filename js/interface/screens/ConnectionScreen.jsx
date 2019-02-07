@@ -1,16 +1,16 @@
 import _ from 'lodash';
 import React from 'react';
 import isUrl from 'is-url';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { TextDecoder } from 'text-encoding';
 import { Button, Surface, TextInput } from 'react-native-paper';
 import Styles from '../styles';
+import * as Types from '../../types';
 
 class ConnectionScreen extends React.Component {
   static propTypes = {
-    navigation: PropTypes.shape({ navigate: PropTypes.func.isRequired }).isRequired,
-    socketMinLatency: PropTypes.number.isRequired,
+    navigation: Types.navigation.isRequired,
+    socketMinLatency: Types.number.isRequired,
   };
 
   constructor(props) {

@@ -1,11 +1,11 @@
 import _ from 'lodash';
 import React from 'react';
-import PropTypes from 'prop-types';
 import { View } from 'react-native';
+import * as Types from '../../types';
 
 export default class TouchDispenser extends React.Component {
   static propTypes = {
-    children: PropTypes.node.isRequired,
+    children: Types.node.isRequired,
   };
 
   childRefs = [];
