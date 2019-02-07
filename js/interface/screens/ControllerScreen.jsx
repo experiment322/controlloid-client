@@ -18,8 +18,8 @@ class ControllerScreen extends React.Component {
     analogStickMax: PropTypes.number.isRequired,
   };
 
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
     this.state = {
       components: [
         {

@@ -14,8 +14,8 @@ export default class Button extends TouchReceiverMixin(React.Component) {
     emit: PropTypes.string.isRequired,
   };
 
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
     this.touchId = null;
     this.opacity = new Animated.Value(1);
   }

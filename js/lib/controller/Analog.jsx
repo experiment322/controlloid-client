@@ -27,8 +27,8 @@ export default class Analog extends TouchReceiverMixin(React.Component) {
     return null;
   }
 
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
     this.state = {
       centerX: 0,
       centerY: 0,
