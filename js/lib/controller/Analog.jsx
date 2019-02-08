@@ -1,10 +1,16 @@
 import React from 'react';
 import SvgUri from 'react-native-svg-uri';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Animated, View } from 'react-native';
 import * as Types from '../../types';
 import { TouchReceiverMixin } from '../utils';
+import Styles, { buildContainerStyle } from './styles';
 
 export default class Analog extends TouchReceiverMixin(React.Component) {
+  static defaultProps = {
+    stickerIcon: 'star-three-points',
+  };
+
   static propTypes = {
     x: Types.number.isRequired,
     y: Types.number.isRequired,
@@ -14,6 +20,7 @@ export default class Analog extends TouchReceiverMixin(React.Component) {
     theme: Types.controllerTheme.isRequired,
     dispatch: Types.func.isRequired,
     analogStickMax: Types.number.isRequired,
+    stickerIcon: Types.string,
   };
 
   static getDerivedStateFromProps({ x, y, size }, { centerX, centerY, halfSize }) {
@@ -95,22 +102,12 @@ export default class Analog extends TouchReceiverMixin(React.Component) {
 
   render() {
     const {
-      x, y, size, theme, ...viewProps
+      x, y, size, theme, stickerIcon, ...viewProps
     } = this.props;
+    const knobSize = size * 0.75;
     return (
-      <View
-        {...viewProps}
-        style={{
-          top: y,
-          left: x,
-          width: size,
-          height: size,
-          position: 'absolute',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <View style={{ position: 'absolute' }}>
+      <View {...viewProps} style={buildContainerStyle(x, y, size)}>
+        <View style={Styles.overlayContainer}>
           <SvgUri
             width={size}
             height={size}
@@ -119,10 +116,13 @@ export default class Analog extends TouchReceiverMixin(React.Component) {
         </View>
         <Animated.View style={{ transform: this.translation.getTranslateTransform() }}>
           <SvgUri
-            width={size * 0.75}
-            height={size * 0.75}
+            width={knobSize}
+            height={knobSize}
             svgXmlData={theme.knob}
           />
+          <View style={Styles.overlayContainer}>
+            <Icon name={stickerIcon} size={knobSize * 0.5} />
+          </View>
         </Animated.View>
       </View>
     );
