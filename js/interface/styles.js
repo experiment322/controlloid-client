@@ -21,6 +21,7 @@ export default StyleSheet.create({
   },
   preferenceCard: {
     padding: 8,
+    marginVertical: 8,
   },
   flatListGrowContent: {
     flexGrow: 1,

@@ -3,7 +3,7 @@ import Orientation from 'react-native-orientation-locker';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import { StatusBar } from 'react-native';
 import { Provider as StoreProvider } from 'react-redux';
-import { Provider as PaperProvider } from 'react-native-paper';
+import { IconButton, Provider as PaperProvider } from 'react-native-paper';
 import { createAppContainer, createDrawerNavigator, createStackNavigator } from 'react-navigation';
 import { configureStore } from './redux';
 import {
@@ -20,36 +20,69 @@ const lockDrawerOnScreen = (screen, { index, routes }) => {
   return currentScreen === screen ? 'locked-closed' : 'unlocked';
 };
 
+const HomeStackNavigator = createStackNavigator({
+  Home: {
+    screen: HomeScreen,
+    navigationOptions: ({ navigation: { toggleDrawer } }) => ({
+      title: 'Controlloid',
+      headerLeft: <IconButton icon="menu" color="black" size={24} onPress={toggleDrawer} />,
+    }),
+  },
+});
+
+const LayoutsStackNavigator = createStackNavigator({
+  Layouts: {
+    screen: LayoutsScreen,
+    navigationOptions: ({ navigation: { toggleDrawer } }) => ({
+      title: 'Manage layouts',
+      headerLeft: <IconButton icon="menu" color="black" size={24} onPress={toggleDrawer} />,
+    }),
+  },
+  Editor: {
+    screen: EditorScreen,
+    navigationOptions: () => ({
+      header: null,
+    }),
+  },
+});
+
+const ConnectionStackNavigator = createStackNavigator({
+  Connection: {
+    screen: ConnectionScreen,
+    navigationOptions: ({ navigation: { toggleDrawer } }) => ({
+      title: 'Connect and play',
+      headerLeft: <IconButton icon="menu" color="black" size={24} onPress={toggleDrawer} />,
+    }),
+  },
+  Controller: {
+    screen: ControllerScreen,
+    navigationOptions: () => ({
+      header: null,
+    }),
+  },
+});
+
+const PreferencesStackNavigator = createStackNavigator({
+  Preferences: {
+    screen: PreferencesScreen,
+    navigationOptions: ({ navigation: { toggleDrawer } }) => ({
+      title: 'Change preferences',
+      headerLeft: <IconButton icon="menu" color="black" size={24} onPress={toggleDrawer} />,
+    }),
+  },
+});
+
 const AppNavigator = createDrawerNavigator({
   HomeScreenContainer: {
-    screen: createStackNavigator({
-      Home: {
-        screen: HomeScreen,
-        navigationOptions: {
-          title: 'Controlloid',
-        },
-      },
-    }),
-    navigationOptions: {
+    screen: HomeStackNavigator,
+    navigationOptions: () => ({
       title: 'Home',
       drawerIcon: <MaterialIcon name="home" size={24} />,
-    },
+      drawerLockMode: 'unlocked',
+    }),
   },
   LayoutsScreenContainer: {
-    screen: createStackNavigator({
-      Layouts: {
-        screen: LayoutsScreen,
-        navigationOptions: {
-          title: 'Manage layouts',
-        },
-      },
-      Editor: {
-        screen: EditorScreen,
-        navigationOptions: {
-          header: null,
-        },
-      },
-    }),
+    screen: LayoutsStackNavigator,
     navigationOptions: ({ navigation: { state: navigationState } }) => ({
       title: 'Layouts',
       drawerIcon: <MaterialIcon name="layers" size={24} />,
@@ -57,20 +90,7 @@ const AppNavigator = createDrawerNavigator({
     }),
   },
   ConnectionScreenContainer: {
-    screen: createStackNavigator({
-      Connection: {
-        screen: ConnectionScreen,
-        navigationOptions: {
-          title: 'Connect and play',
-        },
-      },
-      Controller: {
-        screen: ControllerScreen,
-        navigationOptions: {
-          header: null,
-        },
-      },
-    }),
+    screen: ConnectionStackNavigator,
     navigationOptions: ({ navigation: { state: navigationState } }) => ({
       title: 'Controller',
       drawerIcon: <MaterialIcon name="gamepad" size={24} />,
@@ -78,18 +98,12 @@ const AppNavigator = createDrawerNavigator({
     }),
   },
   PreferencesScreenContainer: {
-    screen: createStackNavigator({
-      Preferences: {
-        screen: PreferencesScreen,
-        navigationOptions: {
-          title: 'Change preferences',
-        },
-      },
-    }),
-    navigationOptions: {
+    screen: PreferencesStackNavigator,
+    navigationOptions: () => ({
       title: 'Preferences',
       drawerIcon: <MaterialIcon name="settings" size={24} />,
-    },
+      drawerLockMode: 'unlocked',
+    }),
   },
 });
 
