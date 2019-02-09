@@ -120,24 +120,31 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    this.unsubscribe = persistor.subscribe(() => {
-      if (persistor.getState().bootstrapped) {
-        const { preferences: { applicationTheme } } = store.getState();
-        this.setState({ applicationTheme });
-        if (this.unsubscribe) {
-          this.unsubscribe();
-        }
-      }
-    });
-    Orientation.unlockAllOrientations();
     StatusBar.setHidden(false);
+    Orientation.unlockAllOrientations();
+    if (!this.trySetApplicationTheme()) {
+      this.persistorUnsubscribe = persistor.subscribe(() => {
+        if (this.trySetApplicationTheme() && this.persistorUnsubscribe) {
+          this.persistorUnsubscribe();
+        }
+      });
+    }
   }
 
   componentWillUnmount() {
-    if (this.unsubscribe) {
-      this.unsubscribe();
+    if (this.persistorUnsubscribe) {
+      this.persistorUnsubscribe();
     }
   }
+
+  trySetApplicationTheme = () => {
+    if (persistor.getState().bootstrapped) {
+      const { preferences: { applicationTheme } } = store.getState();
+      this.setState({ applicationTheme });
+      return true;
+    }
+    return false;
+  };
 
   render() {
     const { applicationTheme } = this.state;
