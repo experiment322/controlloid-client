@@ -1,4 +1,5 @@
 import React from 'react';
+import SplashScreen from 'react-native-splash-screen';
 import Orientation from 'react-native-orientation-locker';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import { StatusBar } from 'react-native';
@@ -148,6 +149,9 @@ export default class App extends React.Component {
 
   render() {
     const { applicationTheme } = this.state;
+    if (applicationTheme) {
+      SplashScreen.hide();
+    }
     return (
       <StoreProvider store={store}>
         {!!applicationTheme && (

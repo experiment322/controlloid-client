@@ -11,6 +11,7 @@ import com.horcrux.svg.SvgPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import org.wonday.orientation.OrientationPackage;
 
 import java.util.Arrays;
@@ -26,12 +27,13 @@ public class MainApplication extends Application implements ReactApplication {
 
         @Override
         protected List<ReactPackage> getPackages() {
-            return Arrays.<ReactPackage>asList(
+            return Arrays.asList(
                     new MainReactPackage(),
                     new SvgPackage(),
                     new VectorIconsPackage(),
                     new OrientationPackage(),
-                    new RNGestureHandlerPackage()
+                    new RNGestureHandlerPackage(),
+                    new SplashScreenReactPackage()
             );
         }
 
