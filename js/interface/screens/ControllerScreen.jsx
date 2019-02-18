@@ -30,7 +30,7 @@ class ControllerScreen extends React.Component {
             x: 350,
             y: 225,
             size: 75,
-            emit: 'BTN_WEST',
+            emit: 'SQUARE',
           },
         }, {
           id: 2,
@@ -39,7 +39,7 @@ class ControllerScreen extends React.Component {
             x: 425,
             y: 225,
             size: 75,
-            emit: 'BTN_EAST',
+            emit: 'CROSS',
           },
         }, {
           id: 3,
@@ -48,8 +48,8 @@ class ControllerScreen extends React.Component {
             x: 50,
             y: 200,
             size: 100,
-            emitX: 'ABS_X',
-            emitY: 'ABS_Y',
+            emitX: 'ANALOG_LX',
+            emitY: 'ANALOG_LY',
           },
         },
       ],
