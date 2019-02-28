@@ -20,6 +20,7 @@ class LayoutsScreen extends React.Component {
     createLayout: Types.func.isRequired,
     deleteLayout: Types.func.isRequired,
     setActiveLayout: Types.func.isRequired,
+    navigation: Types.navigation.isRequired,
   };
 
   constructor(props) {
@@ -27,14 +28,15 @@ class LayoutsScreen extends React.Component {
     this.layoutInputRef = React.createRef();
   }
 
-
   renderListItem = ({ item }) => {
-    const { activeLayout, deleteLayout, setActiveLayout } = this.props;
+    const {
+      activeLayout, deleteLayout, setActiveLayout, navigation,
+    } = this.props;
     const itemStatusIcon = activeLayout === item ? 'star' : 'star-border';
     return (
       <List.Item
         title={item}
-        onPress={() => null}
+        onPress={() => navigation.navigate('Editor', { editedLayout: item })}
         left={props => (
           <TouchableRipple onPress={() => setActiveLayout(item)}>
             <List.Icon {...props} icon={itemStatusIcon} />
@@ -78,7 +80,7 @@ class LayoutsScreen extends React.Component {
     return (
       <Surface style={Styles.screen}>
         <FlatList
-          data={_.keys(layouts)}
+          data={_.sortBy(_.keys(layouts))}
           renderItem={this.renderListItem}
           keyExtractor={this.extractItemKey}
           ListEmptyComponent={this.renderListEmptyComponent()}

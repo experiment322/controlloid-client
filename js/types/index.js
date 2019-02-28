@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 export const {
-  func, node, number, string,
+  bool, func, node, number, string,
 } = PropTypes;
 
 export const namedShape = PropTypes.shape({

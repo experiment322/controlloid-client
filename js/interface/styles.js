@@ -14,10 +14,10 @@ export default StyleSheet.create({
     elevation: 1,
     marginBottom: 16,
   },
-  preferencePickerModal: {
+  pickerModal: {
+    margin: 16,
     padding: 8,
     borderRadius: 8,
-    marginHorizontal: 16,
   },
   preferenceCard: {
     padding: 8,
@@ -29,5 +29,10 @@ export default StyleSheet.create({
   centeredText: {
     fontSize: 18,
     textAlign: 'center',
+  },
+  centeredContent: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

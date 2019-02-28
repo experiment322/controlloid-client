@@ -1,3 +1,9 @@
 /* eslint-disable import/prefer-default-export */
-export { default as Analog } from './Analog';
-export { default as Button } from './Button';
+import Analog from './Analog';
+import Button from './Button';
+
+export const Controls = {
+  Analog,
+  Button,
+};
+export { default as Components } from './Components';

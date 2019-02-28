@@ -4,13 +4,8 @@ import { connect } from 'react-redux';
 import { StatusBar } from 'react-native';
 import Styles from '../styles';
 import * as Types from '../../types';
+import { Controls } from '../../lib/controller';
 import { TouchDispenser } from '../../lib/utils';
-import { Analog, Button } from '../../lib/controller';
-
-const CONTROLLER_COMPONENT_MAPPING = {
-  analog: Analog,
-  button: Button,
-};
 
 class ControllerScreen extends React.Component {
   static propTypes = {
@@ -25,7 +20,7 @@ class ControllerScreen extends React.Component {
       components: [
         {
           id: 1,
-          type: 'button',
+          type: 'Button',
           props: {
             x: 350,
             y: 225,
@@ -34,7 +29,7 @@ class ControllerScreen extends React.Component {
           },
         }, {
           id: 2,
-          type: 'button',
+          type: 'Button',
           props: {
             x: 425,
             y: 225,
@@ -43,7 +38,7 @@ class ControllerScreen extends React.Component {
           },
         }, {
           id: 3,
-          type: 'analog',
+          type: 'Analog',
           props: {
             x: 50,
             y: 200,
@@ -74,14 +69,14 @@ class ControllerScreen extends React.Component {
     return (
       <TouchDispenser style={Styles.fullScreen}>
         {components.map((component) => {
-          const ControllerComponent = CONTROLLER_COMPONENT_MAPPING[component.type];
+          const ControllerComponent = Controls[component.type];
           return (
             <ControllerComponent
               {...component.props}
+              {...(ControllerComponent === Controls.Analog && { analogStickMax })}
               key={component.id}
               theme={controllerTheme}
               dispatch={navigation.getParam('socketDispatch')}
-              analogStickMax={component.type === 'analog' ? analogStickMax : undefined}
             />
           );
         })}

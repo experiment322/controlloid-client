@@ -1,14 +1,16 @@
 import React from 'react';
 import SvgUri from 'react-native-svg-uri';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Animated, View } from 'react-native';
+import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Animated, View, ViewPropTypes } from 'react-native';
 import * as Types from '../../types';
 import { TouchReceiverMixin } from '../utils';
 import Styles, { buildContainerStyle } from './styles';
 
-export default class Analog extends TouchReceiverMixin(React.Component) {
+export default class Analog extends TouchReceiverMixin(React.PureComponent) {
   static defaultProps = {
+    dispatch: () => null,
     stickerIcon: 'star-three-points',
+    analogStickMax: 32767,
   };
 
   static propTypes = {
@@ -18,9 +20,10 @@ export default class Analog extends TouchReceiverMixin(React.Component) {
     emitX: Types.string.isRequired,
     emitY: Types.string.isRequired,
     theme: Types.controllerTheme.isRequired,
-    dispatch: Types.func.isRequired,
-    analogStickMax: Types.number.isRequired,
+    style: ViewPropTypes.style,
+    dispatch: Types.func,
     stickerIcon: Types.string,
+    analogStickMax: Types.number,
   };
 
   static getDerivedStateFromProps({ x, y, size }, { centerX, centerY, halfSize }) {
@@ -102,11 +105,11 @@ export default class Analog extends TouchReceiverMixin(React.Component) {
 
   render() {
     const {
-      x, y, size, theme, stickerIcon, ...viewProps
+      x, y, size, theme, stickerIcon, style, ...viewProps
     } = this.props;
     const knobSize = size * 0.75;
     return (
-      <View {...viewProps} style={buildContainerStyle(x, y, size)}>
+      <Animated.View {...viewProps} style={[style, buildContainerStyle(x, y, size)]}>
         <View style={Styles.overlayContainer}>
           <SvgUri
             width={size}
@@ -121,10 +124,10 @@ export default class Analog extends TouchReceiverMixin(React.Component) {
             svgXmlData={theme.knob}
           />
           <View style={Styles.overlayContainer}>
-            <Icon name={stickerIcon} size={knobSize * 0.5} />
+            <MaterialIcon name={stickerIcon} size={knobSize * 0.5} />
           </View>
         </Animated.View>
-      </View>
+      </Animated.View>
     );
   }
 }

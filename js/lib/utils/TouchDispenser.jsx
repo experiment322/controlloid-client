@@ -3,7 +3,7 @@ import React from 'react';
 import { View } from 'react-native';
 import * as Types from '../../types';
 
-export default class TouchDispenser extends React.Component {
+export default class TouchDispenser extends React.PureComponent {
   static propTypes = {
     children: Types.node.isRequired,
   };

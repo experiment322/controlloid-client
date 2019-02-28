@@ -1,7 +1,7 @@
 import React from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import Orientation from 'react-native-orientation-locker';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { StatusBar } from 'react-native';
 import { Provider as StoreProvider } from 'react-redux';
 import { IconButton, Provider as PaperProvider } from 'react-native-paper';
