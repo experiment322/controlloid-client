@@ -8,9 +8,14 @@ import Styles from '../styles';
 import * as Types from '../../types';
 
 class ConnectionScreen extends React.Component {
+  static defaultProps = {
+    activeLayout: null,
+  };
+
   static propTypes = {
-    navigation: Types.navigation.isRequired,
+    activeLayout: Types.string,
     socketMinLatency: Types.number.isRequired,
+    navigation: Types.navigation.isRequired,
   };
 
   constructor(props) {
@@ -90,6 +95,21 @@ class ConnectionScreen extends React.Component {
 
   render() {
     const { loading, socketAddress } = this.state;
+    const { activeLayout, navigation } = this.props;
+    if (!activeLayout) {
+      return (
+        <Surface style={Styles.screen}>
+          <Button
+            icon="layers"
+            mode="outlined"
+            style={Styles.elevate}
+            onPress={() => navigation.navigate('Layouts')}
+          >
+            SELECT LAYOUT
+          </Button>
+        </Surface>
+      );
+    }
     return (
       <Surface style={Styles.screen}>
         <TextInput
@@ -118,6 +138,7 @@ class ConnectionScreen extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  activeLayout: state.layouts.activeLayout,
   socketMinLatency: state.preferences.socketMinLatency,
 });
 

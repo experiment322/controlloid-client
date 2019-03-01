@@ -12,7 +12,7 @@ import {
 import Styles from '../styles';
 import * as Types from '../../types';
 
-export default class PreferencePickCard extends React.Component {
+export default class PreferencePickCard extends React.PureComponent {
   static propTypes = {
     name: Types.string.isRequired,
     value: Types.namedShape.isRequired,

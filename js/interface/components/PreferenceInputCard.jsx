@@ -3,7 +3,7 @@ import { HelperText, Surface, TextInput } from 'react-native-paper';
 import Styles from '../styles';
 import * as Types from '../../types';
 
-export default class PreferenceInputCard extends React.Component {
+export default class PreferenceInputCard extends React.PureComponent {
   static propTypes = {
     name: Types.string.isRequired,
     value: Types.string.isRequired,
