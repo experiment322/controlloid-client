@@ -11,6 +11,7 @@ class ControllerScreen extends React.Component {
   static propTypes = {
     layouts: Types.objectOfControllerLayouts.isRequired,
     activeLayout: Types.string.isRequired,
+    analogDeadZone: Types.number.isRequired,
     analogStickMax: Types.number.isRequired,
     controllerTheme: Types.controllerTheme.isRequired,
     navigation: Types.navigation.isRequired,
@@ -30,7 +31,7 @@ class ControllerScreen extends React.Component {
 
   render() {
     const {
-      layouts, activeLayout, analogStickMax, controllerTheme, navigation,
+      layouts, activeLayout, analogDeadZone, analogStickMax, controllerTheme, navigation,
     } = this.props;
     const { components } = layouts[activeLayout];
     return (
@@ -40,7 +41,10 @@ class ControllerScreen extends React.Component {
           return (
             <ControllerComponent
               {...component.props}
-              {...(ControllerComponent === Controls.Analog && { analogStickMax })}
+              {...(ControllerComponent === Controls.Analog && {
+                analogDeadZone,
+                analogStickMax,
+              })}
               key={component.id}
               theme={controllerTheme}
               dispatch={navigation.getParam('socketDispatch')}
@@ -55,6 +59,7 @@ class ControllerScreen extends React.Component {
 const mapStateToProps = state => ({
   layouts: state.layouts.layouts,
   activeLayout: state.layouts.activeLayout,
+  analogDeadZone: state.preferences.analogDeadZone,
   analogStickMax: state.preferences.analogStickMax,
   controllerTheme: state.preferences.controllerTheme,
 });

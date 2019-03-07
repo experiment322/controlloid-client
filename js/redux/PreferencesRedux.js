@@ -5,6 +5,7 @@ import { ControlloidTheme } from '../lib/controller/themes';
 const INITIAL_STATE = {
   controllerTheme: ControlloidTheme,
   applicationTheme: LightTheme,
+  analogDeadZone: 33,
   analogStickMax: 32767,
   socketMinLatency: 0,
 };
@@ -12,6 +13,7 @@ const INITIAL_STATE = {
 export const { Types, Creators: Actions } = createActions({
   setControllerTheme: ['theme'],
   setApplicationTheme: ['theme'],
+  setAnalogDeadZone: ['value'],
   setAnalogStickMax: ['value'],
   setSocketMinLatency: ['value'],
   setDefaults: null,
@@ -25,6 +27,10 @@ export const Reducer = createReducer(INITIAL_STATE, {
   [Types.SET_APPLICATION_THEME]: (state = INITIAL_STATE, action) => ({
     ...state,
     applicationTheme: action.theme,
+  }),
+  [Types.SET_ANALOG_DEAD_ZONE]: (state = INITIAL_STATE, action) => ({
+    ...state,
+    analogDeadZone: action.value,
   }),
   [Types.SET_ANALOG_STICK_MAX]: (state = INITIAL_STATE, action) => ({
     ...state,

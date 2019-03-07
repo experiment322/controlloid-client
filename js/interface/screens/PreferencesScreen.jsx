@@ -12,9 +12,11 @@ import { PreferenceInputCard, PreferencePickCard } from '../components';
 class PreferencesScreen extends React.Component {
   static propTypes = {
     applicationTheme: Types.applicationTheme.isRequired,
+    analogDeadZone: Types.number.isRequired,
     analogStickMax: Types.number.isRequired,
     socketMinLatency: Types.number.isRequired,
     saveApplicationTheme: Types.func.isRequired,
+    saveAnalogDeadZone: Types.func.isRequired,
     saveAnalogStickMax: Types.func.isRequired,
     saveSocketMinLatency: Types.func.isRequired,
     resetPreferences: Types.func.isRequired,
@@ -26,6 +28,9 @@ class PreferencesScreen extends React.Component {
       preferencesKey: Date.now(),
     };
   }
+
+  validateAnalogDeadZone = value => /^\d+$/.test(value)
+    && Number(value) >= 0 && Number(value) <= 99;
 
   validateAnalogStickMax = value => /^\d+$/.test(value)
     && Number(value) >= 1 && Number(value) <= 32767;
@@ -53,8 +58,8 @@ class PreferencesScreen extends React.Component {
 
   render() {
     const {
-      applicationTheme, analogStickMax, socketMinLatency,
-      saveApplicationTheme, saveAnalogStickMax, saveSocketMinLatency,
+      applicationTheme, analogDeadZone, analogStickMax, socketMinLatency,
+      saveApplicationTheme, saveAnalogDeadZone, saveAnalogStickMax, saveSocketMinLatency,
     } = this.props;
     const { preferencesKey } = this.state;
     return (
@@ -66,6 +71,13 @@ class PreferencesScreen extends React.Component {
             value={applicationTheme}
             options={_.values(ApplicationThemes)}
             onPick={value => saveApplicationTheme(value)}
+          />
+          <PreferenceInputCard
+            name="Analog dead zone"
+            helperText="Valid values: 0 - 99 (%)"
+            value={String(analogDeadZone)}
+            onValidate={this.validateAnalogDeadZone}
+            onSubmit={value => saveAnalogDeadZone(Number(value))}
           />
           <PreferenceInputCard
             name="Analog stick range"
@@ -97,12 +109,14 @@ class PreferencesScreen extends React.Component {
 
 const mapStateToProps = state => ({
   applicationTheme: state.preferences.applicationTheme,
+  analogDeadZone: state.preferences.analogDeadZone,
   analogStickMax: state.preferences.analogStickMax,
   socketMinLatency: state.preferences.socketMinLatency,
 });
 
 const mapDispatchToProps = {
   saveApplicationTheme: PreferencesActions.setApplicationTheme,
+  saveAnalogDeadZone: PreferencesActions.setAnalogDeadZone,
   saveAnalogStickMax: PreferencesActions.setAnalogStickMax,
   saveSocketMinLatency: PreferencesActions.setSocketMinLatency,
   resetPreferences: PreferencesActions.setDefaults,

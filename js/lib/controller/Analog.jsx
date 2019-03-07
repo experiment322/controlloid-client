@@ -10,6 +10,7 @@ export default class Analog extends TouchReceiverMixin(React.PureComponent) {
   static defaultProps = {
     dispatch: () => null,
     stickerIcon: 'star-three-points',
+    analogDeadZone: 0,
     analogStickMax: 32767,
   };
 
@@ -23,6 +24,7 @@ export default class Analog extends TouchReceiverMixin(React.PureComponent) {
     style: ViewPropTypes.style,
     dispatch: Types.func,
     stickerIcon: Types.string,
+    analogDeadZone: Types.number,
     analogStickMax: Types.number,
   };
 
@@ -51,17 +53,22 @@ export default class Analog extends TouchReceiverMixin(React.PureComponent) {
   analogMove(position) {
     const { centerX, centerY, halfSize } = this.state;
     const {
-      dispatch, emitX, emitY, analogStickMax,
+      dispatch, emitX, emitY, analogDeadZone, analogStickMax,
     } = this.props;
     const clampedPosition = {
       x: Math.min(halfSize, Math.max(-halfSize, position.x - centerX)),
       y: Math.min(halfSize, Math.max(-halfSize, position.y - centerY)),
     };
-    dispatch({
-      [emitX]: Math.round((clampedPosition.x / halfSize) * analogStickMax),
-      [emitY]: Math.round((clampedPosition.y / halfSize) * analogStickMax),
-    }, false);
-    this.translation.setValue(clampedPosition);
+    if (Math.abs(clampedPosition.x) >= (analogDeadZone / 100) * halfSize
+      || Math.abs(clampedPosition.y) >= (analogDeadZone / 100) * halfSize) {
+      dispatch({
+        [emitX]: Math.round((clampedPosition.x / halfSize) * analogStickMax),
+        [emitY]: Math.round((clampedPosition.y / halfSize) * analogStickMax),
+      }, false);
+      this.translation.setValue(clampedPosition);
+    } else {
+      this.analogReset();
+    }
   }
 
   analogReset() {
