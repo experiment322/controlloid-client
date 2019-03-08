@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "postversion": "react-native-version"
+    "postversion": "react-native-version --target android"
   },
   "dependencies": {
     "is-url": "^1.2.4",
