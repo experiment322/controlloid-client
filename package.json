@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "postversion": "react-native-version"
   },
   "dependencies": {
     "is-url": "^1.2.4",
-    "jsc-android": "^236355.1.1",
+    "jsc-android": "^241213.0.0",
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
     "react": "16.6.3",
@@ -39,6 +40,7 @@
     "eslint-plugin-react": "^7.12.4",
     "jest": "24.1.0",
     "metro-react-native-babel-preset": "0.52.0",
+    "react-native-version": "^2.6.8",
     "react-test-renderer": "16.6.3"
   },
   "jest": {

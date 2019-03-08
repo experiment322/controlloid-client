@@ -104,6 +104,16 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    signingConfigs {
+        release {
+            if (project.hasProperty('CONTROLLOID_RELEASE_STORE_FILE')) {
+                storeFile file(CONTROLLOID_RELEASE_STORE_FILE)
+                storePassword CONTROLLOID_RELEASE_STORE_PASSWORD
+                keyAlias CONTROLLOID_RELEASE_KEY_ALIAS
+                keyPassword CONTROLLOID_RELEASE_KEY_PASSWORD
+            }
+        }
+    }
     splits {
         abi {
             reset()
@@ -116,6 +126,7 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release
@@ -139,7 +150,7 @@ android {
 
 configurations.all {
     resolutionStrategy {
-        force 'org.webkit:android-jsc:r236355'
+        force 'org.webkit:android-jsc:r241213'
     }
 }
 
