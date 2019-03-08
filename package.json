@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "is-url": "^1.2.4",
-    "jsc-android": "^241213.0.0",
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
     "react": "16.6.3",
