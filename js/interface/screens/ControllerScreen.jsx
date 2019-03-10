@@ -1,4 +1,5 @@
 import React from 'react';
+import KeepAwake from 'react-native-keep-awake';
 import Orientation from 'react-native-orientation-locker';
 import { connect } from 'react-redux';
 import { StatusBar } from 'react-native';
@@ -18,6 +19,7 @@ class ControllerScreen extends React.Component {
   };
 
   componentDidMount() {
+    KeepAwake.activate();
     StatusBar.setHidden(true);
     Orientation.lockToLandscape();
   }
@@ -27,6 +29,7 @@ class ControllerScreen extends React.Component {
     navigation.getParam('socketClose')();
     Orientation.unlockAllOrientations();
     StatusBar.setHidden(false);
+    KeepAwake.deactivate();
   }
 
   render() {

@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
+import KeepAwake from 'react-native-keep-awake';
 import Orientation from 'react-native-orientation-locker';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
@@ -56,6 +57,7 @@ class EditorScreen extends React.Component {
 
   componentDidMount() {
     const { layouts, navigation } = this.props;
+    KeepAwake.activate();
     StatusBar.setHidden(true);
     Orientation.lockToLandscape();
     this.setState({ layout: _.cloneDeep(layouts[navigation.getParam('editedLayout')]) });
@@ -67,6 +69,7 @@ class EditorScreen extends React.Component {
     createLayout(navigation.getParam('editedLayout'), layout);
     Orientation.unlockAllOrientations();
     StatusBar.setHidden(false);
+    KeepAwake.deactivate();
   }
 
   openComponentPicker = () => {
