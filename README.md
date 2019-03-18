@@ -11,7 +11,7 @@ the internet.
 
 The server application can be downloaded from the following link.
 
-[controlloid-server](https://github.com/experiment322/controlloid-server)
+[controlloid-server](https://github.com/experiment322/controlloid-server/archive/master.zip)
 
 ## Features
 * All the buttons of a PS2 controller (except L3 and R3)
