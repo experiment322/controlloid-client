@@ -72,7 +72,7 @@ export default class PreferenceInputCard extends React.PureComponent {
           autoCorrect={false}
           autoCapitalize="none"
           onChangeText={this.setText}
-          onSubmitEditing={this.submitText}
+          onBlur={this.submitText}
         />
         <HelperText type="info">
           {helperText}

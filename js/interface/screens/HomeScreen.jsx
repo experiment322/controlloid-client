@@ -19,7 +19,7 @@ export default class HomeScreen extends React.Component {
               + '4. To change the theme or tweak the controls go to Preferences screen. \n\n'
               + '5. Done!\n\n\n'
               + 'Visit the link below to download the server application.\n'
-              + 'To start the server run: \nLinux: "./dist/linux/start.sh"\nWindows: "./dist/windows/start.ps1"\n\n\n'
+              + 'To start the server run: \nLinux: "./dist/linux/start.sh"\nWindows: "./dist/windows/start.bat"\n\n\n'
             }
           </Text>
           <Text
