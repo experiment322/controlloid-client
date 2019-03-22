@@ -59,13 +59,17 @@ export default class Analog extends TouchReceiverMixin(React.PureComponent) {
       x: Math.min(halfSize, Math.max(-halfSize, position.x - centerX)),
       y: Math.min(halfSize, Math.max(-halfSize, position.y - centerY)),
     };
+    // noinspection JSSuspiciousNameCombination
     if (Math.abs(clampedPosition.x) >= (analogDeadZone / 100) * halfSize
       || Math.abs(clampedPosition.y) >= (analogDeadZone / 100) * halfSize) {
-      dispatch({
-        [emitX]: Math.round((clampedPosition.x / halfSize) * analogStickMax),
-        [emitY]: Math.round((clampedPosition.y / halfSize) * analogStickMax),
-      }, false);
-      this.translation.setValue(clampedPosition);
+      if (clampedPosition.x !== this.translation.x._value // eslint-disable-line max-len, no-underscore-dangle
+        || clampedPosition.y !== this.translation.y._value) { // eslint-disable-line max-len, no-underscore-dangle
+        dispatch({
+          [emitX]: Math.round((clampedPosition.x / halfSize) * analogStickMax),
+          [emitY]: Math.round((clampedPosition.y / halfSize) * analogStickMax),
+        }, false);
+        this.translation.setValue(clampedPosition);
+      }
     } else {
       this.analogReset();
     }
