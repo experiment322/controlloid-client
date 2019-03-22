@@ -77,14 +77,17 @@ export default class Analog extends TouchReceiverMixin(React.PureComponent) {
 
   analogReset() {
     const { dispatch, emitX, emitY } = this.props;
-    dispatch({
-      [emitX]: 0,
-      [emitY]: 0,
-    }, true);
-    this.translation.setValue({
-      x: 0,
-      y: 0,
-    });
+    if (this.translation.x._value !== 0 // eslint-disable-line no-underscore-dangle
+      || this.translation.y._value !== 0) { // eslint-disable-line no-underscore-dangle
+      dispatch({
+        [emitX]: 0,
+        [emitY]: 0,
+      }, true);
+      this.translation.setValue({
+        x: 0,
+        y: 0,
+      });
+    }
   }
 
   onTouchDown(id) {
