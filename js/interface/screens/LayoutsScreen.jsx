@@ -54,7 +54,7 @@ class LayoutsScreen extends React.Component {
   extractItemKey = item => item;
 
   renderListEmptyComponent = () => (
-    <Surface style={Styles.screen}>
+    <Surface style={Styles.centeredContent}>
       <Text style={Styles.centeredText}>
         Use the input below to create new layouts
       </Text>
