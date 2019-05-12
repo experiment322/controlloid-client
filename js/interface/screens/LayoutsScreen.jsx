@@ -84,7 +84,7 @@ class LayoutsScreen extends React.Component {
           renderItem={this.renderListItem}
           keyExtractor={this.extractItemKey}
           ListEmptyComponent={this.renderListEmptyComponent()}
-          contentContainerStyle={Styles.flatListGrowContent}
+          contentContainerStyle={Styles.flexGrowOne}
         />
         <TextInput
           ref={this.layoutInputRef}

@@ -1,10 +1,10 @@
 import { createActions, createReducer } from 'reduxsauce';
-import { LightTheme } from '../interface/themes';
+import { DarkTheme } from '../interface/themes';
 import { ControlloidTheme } from '../lib/controller/themes';
 
 const INITIAL_STATE = {
   controllerTheme: ControlloidTheme,
-  applicationTheme: LightTheme,
+  applicationTheme: DarkTheme,
   analogDeadZone: 33,
   analogStickMax: 32767,
   socketMinLatency: 10,

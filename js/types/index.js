@@ -14,6 +14,12 @@ export const arrayOfNamedShapes = PropTypes.arrayOf(
   }).isRequired,
 );
 
+export const arrayOfKeyedShapes = PropTypes.arrayOf(
+  PropTypes.shape({
+    key: PropTypes.string.isRequired,
+  }).isRequired,
+);
+
 export const controllerLayout = PropTypes.shape({
   name: PropTypes.string.isRequired,
   components: PropTypes.arrayOf(

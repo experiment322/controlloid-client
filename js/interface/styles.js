@@ -23,7 +23,10 @@ export default StyleSheet.create({
     padding: 8,
     marginVertical: 8,
   },
-  flatListGrowContent: {
+  flexOne: {
+    flex: 1,
+  },
+  flexGrowOne: {
     flexGrow: 1,
   },
   centeredText: {

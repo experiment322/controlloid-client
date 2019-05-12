@@ -1,12 +1,12 @@
 import React from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import Orientation from 'react-native-orientation-locker';
-import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { StatusBar } from 'react-native';
 import { Provider as StoreProvider } from 'react-redux';
-import { IconButton, Provider as PaperProvider } from 'react-native-paper';
+import { Provider as PaperProvider } from 'react-native-paper';
 import { createAppContainer, createDrawerNavigator, createStackNavigator } from 'react-navigation';
 import { configureStore } from './redux';
+import { NavigatorDrawerContainer, NavigatorStackHeader } from './interface/components';
 import {
   ConnectionScreen,
   ControllerScreen,
@@ -16,17 +16,11 @@ import {
   PreferencesScreen,
 } from './interface/screens';
 
-const lockDrawerOnScreen = (screen, { index, routes }) => {
-  const { routeName: currentScreen } = routes[index];
-  return currentScreen === screen ? 'locked-closed' : 'unlocked';
-};
-
 const HomeStackNavigator = createStackNavigator({
   Home: {
     screen: HomeScreen,
     navigationOptions: ({ navigation: { toggleDrawer } }) => ({
-      title: 'Controlloid',
-      headerLeft: <IconButton icon="menu" color="black" size={24} onPress={toggleDrawer} />,
+      header: <NavigatorStackHeader onAction={toggleDrawer} title="Controlloid" />,
     }),
   },
 });
@@ -35,8 +29,7 @@ const LayoutsStackNavigator = createStackNavigator({
   Layouts: {
     screen: LayoutsScreen,
     navigationOptions: ({ navigation: { toggleDrawer } }) => ({
-      title: 'Manage layouts',
-      headerLeft: <IconButton icon="menu" color="black" size={24} onPress={toggleDrawer} />,
+      header: <NavigatorStackHeader onAction={toggleDrawer} title="Manage layouts" />,
     }),
   },
   Editor: {
@@ -51,8 +44,7 @@ const ConnectionStackNavigator = createStackNavigator({
   Connection: {
     screen: ConnectionScreen,
     navigationOptions: ({ navigation: { toggleDrawer } }) => ({
-      title: 'Connect and play',
-      headerLeft: <IconButton icon="menu" color="black" size={24} onPress={toggleDrawer} />,
+      header: <NavigatorStackHeader onAction={toggleDrawer} title="Connect and play" />,
     }),
   },
   Controller: {
@@ -67,18 +59,22 @@ const PreferencesStackNavigator = createStackNavigator({
   Preferences: {
     screen: PreferencesScreen,
     navigationOptions: ({ navigation: { toggleDrawer } }) => ({
-      title: 'Change preferences',
-      headerLeft: <IconButton icon="menu" color="black" size={24} onPress={toggleDrawer} />,
+      header: <NavigatorStackHeader onAction={toggleDrawer} title="Change preferences" />,
     }),
   },
 });
+
+const lockDrawerOnScreen = (screen, { index, routes }) => {
+  const { routeName: currentScreen } = routes[index];
+  return currentScreen === screen ? 'locked-closed' : 'unlocked';
+};
 
 const AppNavigator = createDrawerNavigator({
   HomeScreenContainer: {
     screen: HomeStackNavigator,
     navigationOptions: () => ({
       title: 'Home',
-      drawerIcon: <MaterialIcon name="home" size={24} />,
+      drawerIcon: 'home',
       drawerLockMode: 'unlocked',
     }),
   },
@@ -86,7 +82,7 @@ const AppNavigator = createDrawerNavigator({
     screen: LayoutsStackNavigator,
     navigationOptions: ({ navigation: { state: navigationState } }) => ({
       title: 'Layouts',
-      drawerIcon: <MaterialIcon name="layers" size={24} />,
+      drawerIcon: 'layers',
       drawerLockMode: lockDrawerOnScreen('Editor', navigationState),
     }),
   },
@@ -94,7 +90,7 @@ const AppNavigator = createDrawerNavigator({
     screen: ConnectionStackNavigator,
     navigationOptions: ({ navigation: { state: navigationState } }) => ({
       title: 'Controller',
-      drawerIcon: <MaterialIcon name="gamepad" size={24} />,
+      drawerIcon: 'gamepad',
       drawerLockMode: lockDrawerOnScreen('Controller', navigationState),
     }),
   },
@@ -102,10 +98,12 @@ const AppNavigator = createDrawerNavigator({
     screen: PreferencesStackNavigator,
     navigationOptions: () => ({
       title: 'Preferences',
-      drawerIcon: <MaterialIcon name="settings" size={24} />,
+      drawerIcon: 'settings',
       drawerLockMode: 'unlocked',
     }),
   },
+}, {
+  contentComponent: NavigatorDrawerContainer,
 });
 
 const AppContainer = createAppContainer(AppNavigator);
