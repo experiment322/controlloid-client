@@ -110,9 +110,9 @@ const AppNavigator = createDrawerNavigator({
 
 const AppContainer = createAppContainer(AppNavigator);
 
-const { store, persistor } = configureStore();
+const { store } = configureStore();
 
-export default class App extends React.Component {
+export default class App extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -121,37 +121,23 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
+    SplashScreen.hide();
     StatusBar.setHidden(false);
     Orientation.unlockAllOrientations();
-    if (!this.trySetApplicationTheme()) {
-      this.persistorUnsubscribe = persistor.subscribe(() => {
-        if (this.trySetApplicationTheme() && this.persistorUnsubscribe) {
-          this.persistorUnsubscribe();
-        }
-      });
-    }
+    this.storeUnsubscribe = store.subscribe(() => {
+      const { preferences: { applicationTheme } } = store.getState();
+      this.setState({ applicationTheme });
+    });
   }
 
   componentWillUnmount() {
-    if (this.persistorUnsubscribe) {
-      this.persistorUnsubscribe();
+    if (this.storeUnsubscribe) {
+      this.storeUnsubscribe();
     }
   }
 
-  trySetApplicationTheme = () => {
-    if (persistor.getState().bootstrapped) {
-      const { preferences: { applicationTheme } } = store.getState();
-      this.setState({ applicationTheme });
-      return true;
-    }
-    return false;
-  };
-
   render() {
     const { applicationTheme } = this.state;
-    if (applicationTheme) {
-      SplashScreen.hide();
-    }
     return (
       <StoreProvider store={store}>
         {!!applicationTheme && (

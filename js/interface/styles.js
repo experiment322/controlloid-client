@@ -29,7 +29,6 @@ export default StyleSheet.create({
   centeredText: {
     fontSize: 18,
     textAlign: 'center',
-    paddingTop: 16,
   },
   centeredContent: {
     flex: 1,

@@ -67,7 +67,7 @@ class PreferencesScreen extends React.Component {
         <ScrollView key={preferencesKey}>
           <PreferencePickCard
             name="Application theme"
-            helperText="Restart application to apply theme"
+            helperText="Change application appearance"
             value={applicationTheme}
             options={_.values(ApplicationThemes)}
             onPick={value => saveApplicationTheme(value)}

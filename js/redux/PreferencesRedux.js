@@ -7,7 +7,7 @@ const INITIAL_STATE = {
   applicationTheme: LightTheme,
   analogDeadZone: 33,
   analogStickMax: 32767,
-  socketMinLatency: 0,
+  socketMinLatency: 10,
 };
 
 export const { Types, Creators: Actions } = createActions({
@@ -20,23 +20,23 @@ export const { Types, Creators: Actions } = createActions({
 });
 
 export const Reducer = createReducer(INITIAL_STATE, {
-  [Types.SET_CONTROLLER_THEME]: (state = INITIAL_STATE, action) => ({
+  [Types.SET_CONTROLLER_THEME]: (state, action) => ({
     ...state,
     controllerTheme: action.theme,
   }),
-  [Types.SET_APPLICATION_THEME]: (state = INITIAL_STATE, action) => ({
+  [Types.SET_APPLICATION_THEME]: (state, action) => ({
     ...state,
     applicationTheme: action.theme,
   }),
-  [Types.SET_ANALOG_DEAD_ZONE]: (state = INITIAL_STATE, action) => ({
+  [Types.SET_ANALOG_DEAD_ZONE]: (state, action) => ({
     ...state,
     analogDeadZone: action.value,
   }),
-  [Types.SET_ANALOG_STICK_MAX]: (state = INITIAL_STATE, action) => ({
+  [Types.SET_ANALOG_STICK_MAX]: (state, action) => ({
     ...state,
     analogStickMax: action.value,
   }),
-  [Types.SET_SOCKET_MIN_LATENCY]: (state = INITIAL_STATE, action) => ({
+  [Types.SET_SOCKET_MIN_LATENCY]: (state, action) => ({
     ...state,
     socketMinLatency: action.value,
   }),

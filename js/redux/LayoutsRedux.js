@@ -13,19 +13,19 @@ export const { Types, Creators: Actions } = createActions({
 });
 
 export const Reducer = createReducer(INITIAL_STATE, {
-  [Types.CREATE_LAYOUT]: (state = INITIAL_STATE, action) => ({
+  [Types.CREATE_LAYOUT]: (state, action) => ({
     ...state,
     layouts: {
       ...state.layouts,
       [action.name]: action.layout,
     },
   }),
-  [Types.DELETE_LAYOUT]: (state = INITIAL_STATE, action) => ({
+  [Types.DELETE_LAYOUT]: (state, action) => ({
     ...state,
     layouts: _.omit(state.layouts, [action.name]),
     activeLayout: action.name === state.activeLayout ? null : state.activeLayout,
   }),
-  [Types.SET_ACTIVE_LAYOUT]: (state = INITIAL_STATE, action) => ({
+  [Types.SET_ACTIVE_LAYOUT]: (state, action) => ({
     ...state,
     activeLayout: action.name,
   }),

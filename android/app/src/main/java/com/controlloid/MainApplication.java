@@ -10,6 +10,7 @@ import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.horcrux.svg.SvgPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
@@ -34,6 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
                     new KCKeepAwakePackage(),
                     new VectorIconsPackage(),
                     new OrientationPackage(),
+                    new AsyncStoragePackage(),
                     new RNGestureHandlerPackage(),
                     new SplashScreenReactPackage()
             );
