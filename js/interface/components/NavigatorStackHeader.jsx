@@ -3,7 +3,7 @@ import { Appbar } from 'react-native-paper';
 import * as Types from '../../types';
 
 const NavigatorStackHeader = ({ title, onAction }) => (
-  <Appbar.Header dark={false}>
+  <Appbar.Header>
     <Appbar.Action icon="menu" onPress={onAction} />
     <Appbar.Content title={title} />
   </Appbar.Header>
