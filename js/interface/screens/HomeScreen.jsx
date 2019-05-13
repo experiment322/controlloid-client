@@ -1,9 +1,10 @@
 import React from 'react';
 import { Linking, ScrollView } from 'react-native';
-import { Surface, Text } from 'react-native-paper';
+import { Surface, Text, withTheme } from 'react-native-paper';
 import Styles from '../styles';
+import * as Types from '../../types';
 
-const HomeScreen = () => (
+const HomeScreen = ({ theme }) => (
   <Surface style={Styles.screen}>
     <ScrollView>
       <Text>
@@ -23,7 +24,7 @@ const HomeScreen = () => (
         }
       </Text>
       <Text
-        style={{ color: '#3366BB' }}
+        style={{ color: theme.colors.accent }}
         onPress={() => Linking.openURL('https://github.com/experiment322/controlloid-server')}
       >
         {
@@ -41,4 +42,8 @@ const HomeScreen = () => (
   </Surface>
 );
 
-export default HomeScreen;
+HomeScreen.propTypes = {
+  theme: Types.applicationTheme.isRequired,
+};
+
+export default withTheme(HomeScreen);

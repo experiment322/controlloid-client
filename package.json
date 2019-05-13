@@ -16,6 +16,7 @@
     "react-native": "0.59.8",
     "react-native-gesture-handler": "^1.2.1",
     "react-native-keep-awake": "^4.0.0",
+    "react-native-network-info": "^4.0.1",
     "react-native-orientation-locker": "^1.1.5",
     "react-native-paper": "^2.15.2",
     "react-native-splash-screen": "^3.2.0",
