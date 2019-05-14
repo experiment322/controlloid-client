@@ -1,6 +1,7 @@
 import React from 'react';
-import SplashScreen from 'react-native-splash-screen';
+import KeepAwake from 'react-native-keep-awake';
 import Orientation from 'react-native-orientation-locker';
+import SplashScreen from 'react-native-splash-screen';
 import { StatusBar } from 'react-native';
 import { Provider as StoreProvider } from 'react-redux';
 import { Provider as PaperProvider } from 'react-native-paper';
@@ -120,12 +121,10 @@ export default class App extends React.PureComponent {
 
   componentDidMount() {
     SplashScreen.hide();
+    KeepAwake.deactivate();
     StatusBar.setHidden(false);
     Orientation.unlockAllOrientations();
-    this.storeUnsubscribe = store.subscribe(() => {
-      const { preferences: { applicationTheme } } = store.getState();
-      this.setState({ applicationTheme });
-    });
+    this.synchronizeApplicationThemeWithRedux();
   }
 
   componentWillUnmount() {
@@ -133,6 +132,15 @@ export default class App extends React.PureComponent {
       this.storeUnsubscribe();
     }
   }
+
+  synchronizeApplicationThemeWithRedux = () => {
+    const { preferences: { applicationTheme } } = store.getState();
+    this.setState({ applicationTheme });
+
+    if (!this.storeUnsubscribe) {
+      this.storeUnsubscribe = store.subscribe(this.synchronizeApplicationThemeWithRedux);
+    }
+  };
 
   render() {
     const { applicationTheme } = this.state;
