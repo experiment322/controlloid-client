@@ -17,7 +17,8 @@ The server application can be downloaded from the following link.
 ## Features
 * All the buttons of a PS2 controller (except L3 and R3)
 * Supports multiple clients (limited to 16 on Windows)
-* Analog stick deadzone (set from Preferences)
+* Analog stick dead zone (set from Preferences)
+* Scan and connect instantly to LAN servers
 * Move, resize and overlap buttons in layout editor
-* Creation of multiple layouts to acomodate different games
+* Creation of multiple layouts to accommodate different games
 * More to come! (suggestions welcome on GitHub)
