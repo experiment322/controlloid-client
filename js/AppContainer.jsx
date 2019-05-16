@@ -1,12 +1,8 @@
 import React from 'react';
-import KeepAwake from 'react-native-keep-awake';
-import Orientation from 'react-native-orientation-locker';
-import SplashScreen from 'react-native-splash-screen';
-import { StatusBar } from 'react-native';
-import { Provider as StoreProvider } from 'react-redux';
+import { connect } from 'react-redux';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { createAppContainer, createDrawerNavigator, createStackNavigator } from 'react-navigation';
-import { configureStore } from './redux';
+import * as Types from './types';
 import { NavigatorDrawerContainer, NavigatorStackHeader } from './interface/components';
 import {
   ConnectionScreen,
@@ -109,49 +105,23 @@ const AppNavigator = createDrawerNavigator({
 
 const AppContainer = createAppContainer(AppNavigator);
 
-const { store } = configureStore();
-
-export default class App extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      applicationTheme: null,
-    };
-  }
-
-  componentDidMount() {
-    SplashScreen.hide();
-    KeepAwake.deactivate();
-    StatusBar.setHidden(false);
-    Orientation.unlockAllOrientations();
-    this.synchronizeApplicationThemeWithRedux();
-  }
-
-  componentWillUnmount() {
-    if (this.storeUnsubscribe) {
-      this.storeUnsubscribe();
-    }
-  }
-
-  synchronizeApplicationThemeWithRedux = () => {
-    const { preferences: { applicationTheme } } = store.getState();
-    this.setState({ applicationTheme });
-
-    if (!this.storeUnsubscribe) {
-      this.storeUnsubscribe = store.subscribe(this.synchronizeApplicationThemeWithRedux);
-    }
+class ThemedAppContainer extends React.PureComponent {
+  static propTypes = {
+    applicationTheme: Types.applicationTheme.isRequired,
   };
 
   render() {
-    const { applicationTheme } = this.state;
+    const { applicationTheme } = this.props;
     return (
-      <StoreProvider store={store}>
-        {!!applicationTheme && (
-          <PaperProvider theme={applicationTheme}>
-            <AppContainer />
-          </PaperProvider>
-        )}
-      </StoreProvider>
+      <PaperProvider theme={applicationTheme}>
+        <AppContainer />
+      </PaperProvider>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  applicationTheme: state.preferences.applicationTheme,
+});
+
+export default connect(mapStateToProps)(ThemedAppContainer);

@@ -95,7 +95,7 @@ class PreferencesScreen extends React.Component {
           />
         </ScrollView>
         <Button
-          mode="contained"
+          mode="outlined"
           color="crimson"
           style={Styles.elevate}
           onPress={this.confirmResetPreferences}
