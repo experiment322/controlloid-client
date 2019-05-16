@@ -28,7 +28,7 @@ class LayoutsScreen extends React.Component {
     this.layoutInputRef = React.createRef();
   }
 
-  renderListItem = ({ item }) => {
+  renderLayoutListItem = ({ item }) => {
     const {
       activeLayout, deleteLayout, setActiveLayout, navigation,
     } = this.props;
@@ -51,9 +51,7 @@ class LayoutsScreen extends React.Component {
     );
   };
 
-  extractItemKey = item => item;
-
-  renderListEmptyComponent = () => (
+  renderLayoutListEmptyComponent = () => (
     <Surface style={Styles.centeredContent}>
       <Text style={Styles.centeredText}>
         Use the input below to create new layouts
@@ -81,9 +79,9 @@ class LayoutsScreen extends React.Component {
       <Surface style={Styles.screen}>
         <FlatList
           data={_.sortBy(_.keys(layouts))}
-          renderItem={this.renderListItem}
-          keyExtractor={this.extractItemKey}
-          ListEmptyComponent={this.renderListEmptyComponent()}
+          renderItem={this.renderLayoutListItem}
+          keyExtractor={_.identity}
+          ListEmptyComponent={this.renderLayoutListEmptyComponent}
           contentContainerStyle={Styles.flexGrowOne}
         />
         <TextInput
