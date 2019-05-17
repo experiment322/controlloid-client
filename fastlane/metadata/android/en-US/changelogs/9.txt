@@ -1,0 +1,4 @@
+* Scan and connect to LAN servers
+* Better theme integration
+* Default to dark theme
+* Instant theme change
