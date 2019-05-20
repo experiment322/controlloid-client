@@ -1,4 +1,5 @@
-### v1.1.0 (2019-05-17)
+### v1.1.1
+* WARNING: This update will reset all application data!
 * Scan and connect to LAN servers
 * Better theme integration
 * Default to dark theme
