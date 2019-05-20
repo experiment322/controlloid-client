@@ -9,10 +9,10 @@ const HomeScreen = ({ theme }) => (
     <ScrollView>
       <Text>
         {
-          '\nWelcome to the beta version of Controlloid!\n\n\n'
+          '\nWelcome to Controlloid!\n\n\n'
           + 'This application allows you to use your phone as a real controller:\n\n'
           + '1. Go to Layouts screen to create, edit and star a layout.\n'
-          + '(you can drag around and resize the controls)\n\n'
+          + '(drag to move and pinch to resize and delete controls)\n\n'
           + '2. Start the server on your PC and make sure that the phone and '
           + 'the computer are on the same network for optimal performance.\n'
           + '(through WiFi or USB tethering)\n\n'
