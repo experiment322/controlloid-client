@@ -1,18 +1,15 @@
-export default superclass => class extends superclass {
+export default superclass => class TouchReceiverMixin extends superclass {
   isTouchReceiver = true;
 
-  // eslint-disable-next-line no-unused-vars, class-methods-use-this
-  onTouchDown(id) {
-    throw new Error('TouchReceiverMixin: onTouchDown is not implemented.');
+  onTouchDown() {
+    throw new Error(`${this.constructor.name}: ${this.onTouchDown.name} is not implemented.`);
   }
 
-  // eslint-disable-next-line no-unused-vars, class-methods-use-this
-  onTouchMove(touch) {
-    throw new Error('TouchReceiverMixin: onTouchMove is not implemented.');
+  onTouchMove() {
+    throw new Error(`${this.constructor.name}: ${this.onTouchMove.name} is not implemented.`);
   }
 
-  // eslint-disable-next-line no-unused-vars, class-methods-use-this
-  onTouchUp(id) {
-    throw new Error('TouchReceiverMixin: onTouchUp is not implemented.');
+  onTouchUp() {
+    throw new Error(`${this.constructor.name}: ${this.onTouchUp.name} is not implemented.`);
   }
 };

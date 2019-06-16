@@ -1,4 +1,7 @@
 import PropTypes from 'prop-types';
+import { ViewPropTypes } from 'react-native';
+
+export const { style } = ViewPropTypes;
 
 export const {
   bool, func, node, number, string, shape, object, objectOf, arrayOf,

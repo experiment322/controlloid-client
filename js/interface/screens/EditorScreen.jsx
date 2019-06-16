@@ -131,9 +131,9 @@ class EditorScreen extends React.Component {
   };
 
   handleGestureTerminate = (component) => {
-    const deltaSize = component.props.size * this.scale._value - component.props.size; // eslint-disable-line max-len, no-underscore-dangle
-    const deltaTranslationX = this.translation.x._value - deltaSize / 2; // eslint-disable-line max-len, no-underscore-dangle
-    const deltaTranslationY = this.translation.y._value - deltaSize / 2; // eslint-disable-line max-len, no-underscore-dangle
+    const deltaSize = component.props.size * this.scale._value - component.props.size;
+    const deltaTranslationX = this.translation.x._value - deltaSize / 2;
+    const deltaTranslationY = this.translation.y._value - deltaSize / 2;
 
     const updatedComponent = _.cloneDeep(component);
     updatedComponent.props.x += deltaTranslationX;

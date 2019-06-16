@@ -1,7 +1,7 @@
 import React from 'react';
 import SvgUri from 'react-native-svg-uri';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Animated, View, ViewPropTypes } from 'react-native';
+import { Animated, View } from 'react-native';
 import * as Types from '../../types';
 import { TouchReceiverMixin } from '../utils';
 import Styles, { buildContainerStyle } from './styles';
@@ -21,7 +21,7 @@ export default class Analog extends TouchReceiverMixin(React.PureComponent) {
     emitX: Types.string.isRequired,
     emitY: Types.string.isRequired,
     theme: Types.controllerTheme.isRequired,
-    style: ViewPropTypes.style,
+    style: Types.style,
     dispatch: Types.func,
     stickerIcon: Types.string,
     analogDeadZone: Types.number,
@@ -62,8 +62,8 @@ export default class Analog extends TouchReceiverMixin(React.PureComponent) {
     // noinspection JSSuspiciousNameCombination
     if (Math.abs(clampedPosition.x) >= (analogDeadZone / 100) * halfSize
       || Math.abs(clampedPosition.y) >= (analogDeadZone / 100) * halfSize) {
-      if (clampedPosition.x !== this.translation.x._value // eslint-disable-line max-len, no-underscore-dangle
-        || clampedPosition.y !== this.translation.y._value) { // eslint-disable-line max-len, no-underscore-dangle
+      if (clampedPosition.x !== this.translation.x._value
+        || clampedPosition.y !== this.translation.y._value) {
         dispatch({
           [emitX]: Math.round((clampedPosition.x / halfSize) * analogStickMax),
           [emitY]: Math.round((clampedPosition.y / halfSize) * analogStickMax),
@@ -77,8 +77,8 @@ export default class Analog extends TouchReceiverMixin(React.PureComponent) {
 
   analogReset() {
     const { dispatch, emitX, emitY } = this.props;
-    if (this.translation.x._value !== 0 // eslint-disable-line no-underscore-dangle
-      || this.translation.y._value !== 0) { // eslint-disable-line no-underscore-dangle
+    if (this.translation.x._value !== 0
+      || this.translation.y._value !== 0) {
       dispatch({
         [emitX]: 0,
         [emitY]: 0,

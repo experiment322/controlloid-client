@@ -1,7 +1,7 @@
 import React from 'react';
 import SvgUri from 'react-native-svg-uri';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Animated, View, ViewPropTypes } from 'react-native';
+import { Animated, View } from 'react-native';
 import * as Types from '../../types';
 import { TouchReceiverMixin } from '../utils';
 import Styles, { buildContainerStyle } from './styles';
@@ -18,7 +18,7 @@ export default class Button extends TouchReceiverMixin(React.PureComponent) {
     size: Types.number.isRequired,
     emit: Types.string.isRequired,
     theme: Types.controllerTheme.isRequired,
-    style: ViewPropTypes.style,
+    style: Types.style,
     dispatch: Types.func,
     stickerIcon: Types.string,
   };
