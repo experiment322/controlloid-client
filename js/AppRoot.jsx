@@ -12,10 +12,10 @@ const { store, persistor } = configureStore();
 
 export default class AppRoot extends React.PureComponent {
   componentDidMount() {
-    SplashScreen.hide();
     KeepAwake.deactivate();
     StatusBar.setHidden(false);
     Orientation.unlockAllOrientations();
+    setTimeout(() => SplashScreen.hide(), 333);
   }
 
   render() {
