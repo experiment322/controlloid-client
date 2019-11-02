@@ -4,7 +4,7 @@ import { ViewPropTypes } from 'react-native';
 export const { style } = ViewPropTypes;
 
 export const {
-  bool, func, node, number, string, shape, object, objectOf, arrayOf,
+  any, bool, func, node, number, string, shape, object, objectOf, arrayOf,
 } = PropTypes;
 
 export const namedShape = shape({
@@ -19,13 +19,15 @@ export const keyedShape = shape({
 
 export const arrayOfKeyedShapes = arrayOf(keyedShape);
 
+export const component = shape({
+  id: number.isRequired,
+  type: string.isRequired,
+  props: object.isRequired,
+});
+
 export const controllerLayout = shape({
   name: string.isRequired,
-  components: arrayOf(shape({
-    id: number.isRequired,
-    type: string.isRequired,
-    props: object.isRequired,
-  })).isRequired,
+  components: arrayOf(component).isRequired,
 });
 
 export const objectOfControllerLayouts = objectOf(controllerLayout);

@@ -100,6 +100,7 @@ const AppNavigator = createDrawerNavigator({
     }),
   },
 }, {
+  drawerType: 'slide',
   contentComponent: NavigatorDrawerContainer,
 });
 

@@ -9,19 +9,37 @@ import {
   List, Modal, Portal, Surface,
 } from 'react-native-paper';
 import {
-  Animated, Dimensions, ScrollView, StatusBar, View,
+  Dimensions, ScrollView, StatusBar, View,
 } from 'react-native';
 import Styles from '../styles';
 import * as Types from '../../types';
+import { Components } from '../../lib/controller';
 import { LayoutsActions } from '../../redux';
-import { GestureHandler } from '../../lib/utils';
-import { Components, Controls } from '../../lib/controller';
+import { ComponentEditorBox } from '../components';
 
 const MINIMUM_SIZE = 50;
+const MAXIMUM_SIZE = 150;
 const DEFAULT_CONTROL_SIZE = {
   Analog: 100,
   Button: 75,
 };
+
+function clampComponent(component) {
+  const { props: { x, y, size } } = component;
+  const { width, height } = Dimensions.get('window');
+  const clampedSize = Math.min(Math.max(size, MINIMUM_SIZE), MAXIMUM_SIZE);
+  const clampedX = Math.min(Math.max(x, 0), width - clampedSize);
+  const clampedY = Math.min(Math.max(y, 0), height - clampedSize);
+  return {
+    ...component,
+    props: {
+      ...component.props,
+      size: clampedSize,
+      x: clampedX,
+      y: clampedY,
+    },
+  };
+}
 
 class EditorScreen extends React.Component {
   static propTypes = {
@@ -38,21 +56,6 @@ class EditorScreen extends React.Component {
       picking: false,
       activeComponentId: null,
     };
-
-    this.scale = new Animated.Value(1);
-    this.animatePinch = Animated.event([{
-      nativeEvent: {
-        scale: this.scale,
-      },
-    }]);
-
-    this.translation = new Animated.ValueXY();
-    this.animatePan = Animated.event([{
-      nativeEvent: {
-        translationX: this.translation.x,
-        translationY: this.translation.y,
-      },
-    }]);
   }
 
   componentDidMount() {
@@ -80,9 +83,11 @@ class EditorScreen extends React.Component {
     this.setState({ picking: false });
   };
 
-  handleScreenTap = ({ nativeEvent: { state } }) => {
-    if (state === State.ACTIVE) {
-      this.openComponentPicker();
+  handleScreenTap = ({ nativeEvent: { oldState } }) => {
+    if (oldState === State.ACTIVE) {
+      this.setState({ activeComponentId: null }, () => {
+        this.openComponentPicker();
+      });
     }
   };
 
@@ -93,7 +98,9 @@ class EditorScreen extends React.Component {
       activeComponentId: updatedComponent && markActive ? updatedComponent.id : null,
       layout: {
         ...layout,
-        components: updatedComponent ? [...components, updatedComponent] : components,
+        components: updatedComponent
+          ? [...components, clampComponent(updatedComponent)]
+          : components,
       },
     });
   };
@@ -124,85 +131,39 @@ class EditorScreen extends React.Component {
     />
   ));
 
-  handleGestureBegin = (component) => {
-    this.scale.resetAnimation();
-    this.translation.resetAnimation();
-    this.updateComponent(component, component, true);
-  };
-
-  handleGestureTerminate = (component) => {
-    const deltaSize = component.props.size * this.scale._value - component.props.size;
-    const deltaTranslationX = this.translation.x._value - deltaSize / 2;
-    const deltaTranslationY = this.translation.y._value - deltaSize / 2;
-
-    const updatedComponent = _.cloneDeep(component);
-    updatedComponent.props.x += deltaTranslationX;
-    updatedComponent.props.y += deltaTranslationY;
-    updatedComponent.props.size += deltaSize;
-
-    const { x, y, size } = updatedComponent.props;
-    const { width, height } = Dimensions.get('window');
-    updatedComponent.props.x = Math.min(Math.max(x, 0), width - size);
-    updatedComponent.props.y = Math.min(Math.max(y, 0), height - size);
-
-    const shouldDelete = updatedComponent.props.size < MINIMUM_SIZE;
-    this.updateComponent(component, shouldDelete ? null : updatedComponent, false);
-  };
-
   render() {
     const { layout, picking, activeComponentId } = this.state;
     const { controllerTheme } = this.props;
     return (
-      <TapGestureHandler enabled={!activeComponentId} onHandlerStateChange={this.handleScreenTap}>
+      <>
         <View style={Styles.fullScreen}>
-          {layout && !layout.components.length && (
-            <View style={Styles.centeredContent}>
+          <TapGestureHandler
+            onHandlerStateChange={this.handleScreenTap}
+          >
+            <View style={[Styles.absoluteFill, Styles.centeredContent]}>
               <MaterialIcon name="gesture-tap" color="white" size={64} />
             </View>
-          )}
-          {layout && layout.components.map((component) => {
-            const ControllerComponent = Controls[component.type];
-            return (
-              <GestureHandler
-                key={component.id}
-                enabled={!activeComponentId || component.id === activeComponentId}
-                onPanEvent={this.animatePan}
-                onPinchEvent={this.animatePinch}
-                onGestureBegin={() => this.handleGestureBegin(component)}
-                onGestureTerminate={() => this.handleGestureTerminate(component)}
-              >
-                <ControllerComponent
-                  {...component.props}
-                  {...(activeComponentId === component.id && {
-                    opacity: Animated.multiply(component.props.size, this.scale)
-                      .interpolate({
-                        inputRange: [-Infinity, MINIMUM_SIZE, MINIMUM_SIZE, Infinity],
-                        outputRange: [0.5, 0.5, 1, 1],
-                      }),
-                    style: {
-                      transform: [
-                        { scale: this.scale },
-                        { translateX: Animated.divide(this.translation.x, this.scale) },
-                        { translateY: Animated.divide(this.translation.y, this.scale) },
-                      ],
-                    },
-                  })}
-                  theme={controllerTheme}
-                />
-              </GestureHandler>
-            );
-          })}
-          <Portal>
-            <Modal visible={picking} onDismiss={this.closeComponentPicker}>
-              <Surface style={Styles.pickerModal}>
-                <ScrollView>
-                  {this.renderComponents()}
-                </ScrollView>
-              </Surface>
-            </Modal>
-          </Portal>
+          </TapGestureHandler>
+          {layout && layout.components.map(component => (
+            <ComponentEditorBox
+              key={component.id}
+              theme={controllerTheme}
+              focused={activeComponentId === component.id}
+              component={component}
+              onUpdate={this.updateComponent}
+            />
+          ))}
         </View>
-      </TapGestureHandler>
+        <Portal>
+          <Modal visible={picking} onDismiss={this.closeComponentPicker}>
+            <Surface style={Styles.pickerModal}>
+              <ScrollView>
+                {this.renderComponents()}
+              </ScrollView>
+            </Surface>
+          </Modal>
+        </Portal>
+      </>
     );
   }
 }

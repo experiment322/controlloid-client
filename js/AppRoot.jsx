@@ -15,7 +15,7 @@ export default class AppRoot extends React.PureComponent {
     KeepAwake.deactivate();
     StatusBar.setHidden(false);
     Orientation.unlockAllOrientations();
-    setTimeout(() => SplashScreen.hide(), 333);
+    setTimeout(SplashScreen.hide);
   }
 
   render() {

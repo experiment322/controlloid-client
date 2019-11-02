@@ -10,7 +10,7 @@ export default class Analog extends TouchReceiverMixin(React.PureComponent) {
   static defaultProps = {
     dispatch: () => null,
     stickerIcon: 'star-three-points',
-    analogDeadZone: 0,
+    analogDeadZone: 33,
     analogStickMax: 32767,
   };
 
@@ -21,7 +21,7 @@ export default class Analog extends TouchReceiverMixin(React.PureComponent) {
     emitX: Types.string.isRequired,
     emitY: Types.string.isRequired,
     theme: Types.controllerTheme.isRequired,
-    style: Types.style,
+    style: Types.any,
     dispatch: Types.func,
     stickerIcon: Types.string,
     analogDeadZone: Types.number,
@@ -123,7 +123,7 @@ export default class Analog extends TouchReceiverMixin(React.PureComponent) {
     } = this.props;
     const knobSize = size * 0.75;
     return (
-      <Animated.View {...viewProps} style={[style, buildContainerStyle(x, y, size)]}>
+      <Animated.View {...viewProps} style={[buildContainerStyle(x, y, size), style]}>
         <View style={Styles.overlayContainer}>
           <SvgUri
             width={size}

@@ -18,7 +18,7 @@ export default class Button extends TouchReceiverMixin(React.PureComponent) {
     size: Types.number.isRequired,
     emit: Types.string.isRequired,
     theme: Types.controllerTheme.isRequired,
-    style: Types.style,
+    style: Types.any,
     dispatch: Types.func,
     stickerIcon: Types.string,
   };
@@ -78,7 +78,7 @@ export default class Button extends TouchReceiverMixin(React.PureComponent) {
       x, y, size, theme, stickerIcon, style, ...viewProps
     } = this.props;
     return (
-      <Animated.View {...viewProps} style={[style, buildContainerStyle(x, y, size)]}>
+      <Animated.View {...viewProps} style={[buildContainerStyle(x, y, size), style]}>
         <Animated.View style={{ opacity: this.opacity }}>
           <SvgUri
             width={size}

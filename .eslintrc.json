@@ -9,6 +9,7 @@
   },
   "rules": {
     "no-underscore-dangle": "off",
+    "react/forbid-prop-types": "off",
     "import/prefer-default-export": "off"
   }
 }
