@@ -44,8 +44,8 @@ export default class PreferencePickCard extends React.PureComponent {
     const { value, options } = this.props;
     return options.map((option) => {
       const optionStatusIcon = option.name === value.name
-        ? 'radio-button-checked'
-        : 'radio-button-unchecked';
+        ? 'radiobox-marked'
+        : 'radiobox-blank';
       return (
         <List.Item
           key={option.name}

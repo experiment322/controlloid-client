@@ -41,17 +41,17 @@ class PreferencesScreen extends React.Component {
   confirmResetPreferences = () => {
     const { resetPreferences } = this.props;
     Alert.alert(
-      'Reset preferences',
-      'Are you sure?',
+      'Resetting preferences',
+      'Confirm resetting preferences to default values?',
       [{
-        text: 'CANCEL',
-        style: 'cancel',
-      }, {
         text: 'CONFIRM',
         onPress: () => {
           resetPreferences();
           this.setState({ preferencesKey: Date.now() });
         },
+      }, {
+        text: 'CANCEL',
+        style: 'cancel',
       }], { cancelable: false },
     );
   };

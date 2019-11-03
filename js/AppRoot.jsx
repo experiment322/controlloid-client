@@ -5,12 +5,13 @@ import SplashScreen from 'react-native-splash-screen';
 import { StatusBar } from 'react-native';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Provider as StoreProvider } from 'react-redux';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import AppContainer from './AppContainer';
 import { configureStore } from './redux';
 
 const { store, persistor } = configureStore();
 
-export default class AppRoot extends React.PureComponent {
+class AppRoot extends React.PureComponent {
   componentDidMount() {
     KeepAwake.deactivate();
     StatusBar.setHidden(false);
@@ -20,7 +21,7 @@ export default class AppRoot extends React.PureComponent {
 
   render() {
     return (
-      <PersistGate persistor={persistor}>
+      <PersistGate loading={null} persistor={persistor}>
         <StoreProvider store={store}>
           <AppContainer />
         </StoreProvider>
@@ -28,3 +29,5 @@ export default class AppRoot extends React.PureComponent {
     );
   }
 }
+
+export default gestureHandlerRootHOC(AppRoot);

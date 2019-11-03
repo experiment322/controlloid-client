@@ -1,6 +1,6 @@
 import React from 'react';
-import SvgUri from 'react-native-svg-uri';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { SvgXml } from 'react-native-svg';
 import { Animated, View } from 'react-native';
 import * as Types from '../../types';
 import { TouchReceiverMixin } from '../utils';
@@ -80,10 +80,10 @@ export default class Button extends TouchReceiverMixin(React.PureComponent) {
     return (
       <Animated.View {...viewProps} style={[buildContainerStyle(x, y, size), style]}>
         <Animated.View style={{ opacity: this.opacity }}>
-          <SvgUri
+          <SvgXml
+            xml={theme.knob}
             width={size}
             height={size}
-            svgXmlData={theme.knob}
           />
           <View style={Styles.overlayContainer}>
             <MaterialIcon name={stickerIcon} size={size * 0.5} />

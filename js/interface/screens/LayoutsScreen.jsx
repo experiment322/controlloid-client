@@ -32,7 +32,7 @@ class LayoutsScreen extends React.Component {
     const {
       activeLayout, deleteLayout, setActiveLayout, navigation,
     } = this.props;
-    const itemStatusIcon = activeLayout === item ? 'star' : 'star-border';
+    const itemStatusIcon = activeLayout === item ? 'star' : 'star-outline';
     return (
       <List.Item
         title={item}

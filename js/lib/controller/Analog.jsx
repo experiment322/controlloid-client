@@ -1,6 +1,6 @@
 import React from 'react';
-import SvgUri from 'react-native-svg-uri';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { SvgXml } from 'react-native-svg';
 import { Animated, View } from 'react-native';
 import * as Types from '../../types';
 import { TouchReceiverMixin } from '../utils';
@@ -125,17 +125,17 @@ export default class Analog extends TouchReceiverMixin(React.PureComponent) {
     return (
       <Animated.View {...viewProps} style={[buildContainerStyle(x, y, size), style]}>
         <View style={Styles.overlayContainer}>
-          <SvgUri
+          <SvgXml
+            xml={theme.pad}
             width={size}
             height={size}
-            svgXmlData={theme.pad}
           />
         </View>
         <Animated.View style={{ transform: this.translation.getTranslateTransform() }}>
-          <SvgUri
+          <SvgXml
+            xml={theme.knob}
             width={knobSize}
             height={knobSize}
-            svgXmlData={theme.knob}
           />
           <View style={Styles.overlayContainer}>
             <MaterialIcon name={stickerIcon} size={knobSize * 0.5} />

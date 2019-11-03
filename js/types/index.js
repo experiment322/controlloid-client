@@ -50,6 +50,7 @@ export const controllerTheme = shape({
 
 export const applicationTheme = shape({
   name: string.isRequired,
+  mode: string,
   dark: bool.isRequired,
   roundness: number.isRequired,
   colors: shape({
@@ -59,14 +60,32 @@ export const applicationTheme = shape({
     accent: string.isRequired,
     error: string.isRequired,
     text: string.isRequired,
+    onSurface: string.isRequired,
+    onBackground: string.isRequired,
     disabled: string.isRequired,
     placeholder: string.isRequired,
     backdrop: string.isRequired,
+    notification: string.isRequired,
   }).isRequired,
   fonts: shape({
-    regular: string.isRequired,
-    medium: string.isRequired,
-    light: string.isRequired,
-    thin: string.isRequired,
+    regular: shape({
+      fontFamily: string.isRequired,
+      fontWeight: string,
+    }).isRequired,
+    medium: shape({
+      fontFamily: string.isRequired,
+      fontWeight: string,
+    }).isRequired,
+    light: shape({
+      fontFamily: string.isRequired,
+      fontWeight: string,
+    }).isRequired,
+    thin: shape({
+      fontFamily: string.isRequired,
+      fontWeight: string,
+    }).isRequired,
+  }).isRequired,
+  animation: shape({
+    scale: number.isRequired,
   }).isRequired,
 });
