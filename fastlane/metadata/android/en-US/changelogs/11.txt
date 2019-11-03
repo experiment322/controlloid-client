@@ -1,0 +1,3 @@
+* Faster app startup and overall faster app plus smaller footprint
+* A redesigned and more intuitive layout editor
+* Better instructions on home screen
