@@ -1,28 +1,12 @@
-import React from 'react';
-import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { SvgXml } from 'react-native-svg';
-import { Animated, View } from 'react-native';
-import * as Types from '../../types';
-import { TouchReceiverMixin } from '../utils';
-import Styles, { buildContainerStyle } from './styles';
+import React from "react";
+import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
+import { SvgXml } from "react-native-svg";
+import { Animated, View } from "react-native";
+import * as Types from "../../types";
+import { TouchReceiverMixin } from "../utils";
+import Styles, { buildContainerStyle } from "./styles";
 
 export default class Button extends TouchReceiverMixin(React.PureComponent) {
-  static defaultProps = {
-    dispatch: () => null,
-    stickerIcon: 'star-three-points',
-  };
-
-  static propTypes = {
-    x: Types.number.isRequired,
-    y: Types.number.isRequired,
-    size: Types.number.isRequired,
-    emit: Types.string.isRequired,
-    theme: Types.controllerTheme.isRequired,
-    style: Types.any,
-    dispatch: Types.func,
-    stickerIcon: Types.string,
-  };
-
   constructor(props) {
     super(props);
     this.touchId = null;
@@ -53,8 +37,12 @@ export default class Button extends TouchReceiverMixin(React.PureComponent) {
   onTouchMove(touch) {
     if (this.touchId === touch.identifier) {
       const { x, y, size } = this.props;
-      if (x > touch.locationX || touch.locationX > x + size
-        || y > touch.locationY || touch.locationY > y + size) {
+      if (
+        x > touch.locationX ||
+        touch.locationX > x + size ||
+        y > touch.locationY ||
+        touch.locationY > y + size
+      ) {
         this.touchId = null;
         this.buttonRelease();
         return false;
@@ -74,17 +62,11 @@ export default class Button extends TouchReceiverMixin(React.PureComponent) {
   }
 
   render() {
-    const {
-      x, y, size, theme, stickerIcon, style, ...viewProps
-    } = this.props;
+    const { x, y, size, theme, stickerIcon, style, ...viewProps } = this.props;
     return (
       <Animated.View {...viewProps} style={[buildContainerStyle(x, y, size), style]}>
         <Animated.View style={{ opacity: this.opacity }}>
-          <SvgXml
-            xml={theme.knob}
-            width={size}
-            height={size}
-          />
+          <SvgXml xml={theme.knob} width={size} height={size} />
           <View style={Styles.overlayContainer}>
             <MaterialIcon name={stickerIcon} size={size * 0.5} />
           </View>
@@ -93,3 +75,19 @@ export default class Button extends TouchReceiverMixin(React.PureComponent) {
     );
   }
 }
+
+Button.propTypes = {
+  x: Types.number.isRequired,
+  y: Types.number.isRequired,
+  size: Types.number.isRequired,
+  emit: Types.string.isRequired,
+  theme: Types.controllerTheme.isRequired,
+  style: Types.any,
+  dispatch: Types.func,
+  stickerIcon: Types.string,
+};
+
+Button.defaultProps = {
+  dispatch: () => null,
+  stickerIcon: "star-three-points",
+};

@@ -1,48 +1,31 @@
-import _ from 'lodash';
-import React from 'react';
-import { connect } from 'react-redux';
-import { FlatList } from 'react-native';
-import {
-  List, Surface, Text, TextInput, TouchableRipple,
-} from 'react-native-paper';
-import Styles from '../styles';
-import * as Types from '../../types';
-import { LayoutsActions } from '../../redux';
+import _ from "lodash";
+import React from "react";
+import { connect } from "react-redux";
+import { FlatList } from "react-native";
+import { List, Surface, Text, TextInput, TouchableRipple } from "react-native-paper";
+import Styles from "../styles";
+import * as Types from "../../types";
+import { LayoutsActions } from "../../redux";
 
 class LayoutsScreen extends React.Component {
-  static defaultProps = {
-    activeLayout: null,
-  };
-
-  static propTypes = {
-    layouts: Types.objectOfControllerLayouts.isRequired,
-    activeLayout: Types.string,
-    createLayout: Types.func.isRequired,
-    deleteLayout: Types.func.isRequired,
-    setActiveLayout: Types.func.isRequired,
-    navigation: Types.navigation.isRequired,
-  };
-
   constructor(props) {
     super(props);
     this.layoutInputRef = React.createRef();
   }
 
   renderLayoutListItem = ({ item }) => {
-    const {
-      activeLayout, deleteLayout, setActiveLayout, navigation,
-    } = this.props;
-    const itemStatusIcon = activeLayout === item ? 'star' : 'star-outline';
+    const { activeLayout, deleteLayout, setActiveLayout, navigation } = this.props;
+    const itemStatusIcon = activeLayout === item ? "star" : "star-outline";
     return (
       <List.Item
         title={item}
-        onPress={() => navigation.navigate('Editor', { editedLayout: item })}
-        left={props => (
+        onPress={() => navigation.navigate("Editor", { editedLayout: item })}
+        left={(props) => (
           <TouchableRipple onPress={() => setActiveLayout(item)}>
             <List.Icon {...props} icon={itemStatusIcon} />
           </TouchableRipple>
         )}
-        right={props => (
+        right={(props) => (
           <TouchableRipple onPress={() => deleteLayout(item)}>
             <List.Icon {...props} icon="delete" />
           </TouchableRipple>
@@ -53,17 +36,13 @@ class LayoutsScreen extends React.Component {
 
   renderLayoutListEmptyComponent = () => (
     <Surface style={Styles.centeredContent}>
-      <Text style={Styles.centeredText}>
-        Use the input below to create new layouts
-      </Text>
+      <Text style={Styles.centeredText}>Use the input below to create new layouts</Text>
     </Surface>
   );
 
   createLayout = ({ nativeEvent: { text } }) => {
     const { layouts, createLayout } = this.props;
-    const newLayoutName = text
-      .trim()
-      .slice(0, 256);
+    const newLayoutName = text.trim().slice(0, 256);
     if (newLayoutName && !_.has(layouts, newLayoutName)) {
       createLayout(newLayoutName, {
         name: newLayoutName,
@@ -96,7 +75,20 @@ class LayoutsScreen extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+LayoutsScreen.propTypes = {
+  layouts: Types.objectOfControllerLayouts.isRequired,
+  activeLayout: Types.string,
+  createLayout: Types.func.isRequired,
+  deleteLayout: Types.func.isRequired,
+  setActiveLayout: Types.func.isRequired,
+  navigation: Types.navigation.isRequired,
+};
+
+LayoutsScreen.defaultProps = {
+  activeLayout: null,
+};
+
+const mapStateToProps = (state) => ({
   layouts: state.layouts.layouts,
   activeLayout: state.layouts.activeLayout,
 });
@@ -107,4 +99,7 @@ const mapDispatchToProps = {
   setActiveLayout: LayoutsActions.setActiveLayout,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LayoutsScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(LayoutsScreen);

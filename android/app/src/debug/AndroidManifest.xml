@@ -8,4 +8,5 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="28" />
+
 </manifest>

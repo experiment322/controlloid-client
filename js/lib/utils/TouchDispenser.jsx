@@ -1,13 +1,9 @@
-import _ from 'lodash';
-import React from 'react';
-import { View } from 'react-native';
-import * as Types from '../../types';
+import _ from "lodash";
+import React from "react";
+import { View } from "react-native";
+import * as Types from "../../types";
 
 export default class TouchDispenser extends React.PureComponent {
-  static propTypes = {
-    children: Types.node.isRequired,
-  };
-
   childRefs = [];
 
   childLayouts = [];
@@ -34,34 +30,43 @@ export default class TouchDispenser extends React.PureComponent {
     delete this.touchRegisteredChildren[touchId];
   };
 
-  getChildrenUnderTouch = (x, y) => _.transform(this.childLayouts, (result, layout, index) => {
-    if (layout.x <= x && x <= layout.x + layout.width
-      && layout.y <= y && y <= layout.y + layout.height) {
-      result.push(index);
-    }
-  }, []);
+  getChildrenUnderTouch = (x, y) =>
+    _.transform(
+      this.childLayouts,
+      (result, layout, index) => {
+        if (
+          layout.x <= x &&
+          x <= layout.x + layout.width &&
+          layout.y <= y &&
+          y <= layout.y + layout.height
+        ) {
+          result.push(index);
+        }
+      },
+      [],
+    );
 
   setResponder = () => true;
 
   releaseResponder = () => true;
 
   handleEvent = ({ nativeEvent: { touches } }) => {
-    const currTouches = _.keyBy(touches, 'identifier');
+    const currTouches = _.keyBy(touches, "identifier");
 
     const newTouchesIds = _.filter(
       _.keys(currTouches),
-      touchId => !_.has(this.touchRegisteredChildren, touchId),
+      (touchId) => !_.has(this.touchRegisteredChildren, touchId),
     );
     _.forEach(newTouchesIds, (touchId) => {
-      this.registerTouch(touchId, this.getChildrenUnderTouch(
-        currTouches[touchId].locationX,
-        currTouches[touchId].locationY,
-      ));
+      this.registerTouch(
+        touchId,
+        this.getChildrenUnderTouch(currTouches[touchId].locationX, currTouches[touchId].locationY),
+      );
     });
 
     const oldTouchesIds = _.filter(
       _.keys(this.touchRegisteredChildren),
-      touchId => !_.has(currTouches, touchId),
+      (touchId) => !_.has(currTouches, touchId),
     );
     _.forEach(oldTouchesIds, (touchId) => {
       this.unregisterTouch(touchId);
@@ -118,3 +123,7 @@ export default class TouchDispenser extends React.PureComponent {
     );
   }
 }
+
+TouchDispenser.propTypes = {
+  children: Types.node.isRequired,
+};

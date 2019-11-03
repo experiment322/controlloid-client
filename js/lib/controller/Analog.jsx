@@ -1,33 +1,12 @@
-import React from 'react';
-import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { SvgXml } from 'react-native-svg';
-import { Animated, View } from 'react-native';
-import * as Types from '../../types';
-import { TouchReceiverMixin } from '../utils';
-import Styles, { buildContainerStyle } from './styles';
+import React from "react";
+import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
+import { SvgXml } from "react-native-svg";
+import { Animated, View } from "react-native";
+import * as Types from "../../types";
+import { TouchReceiverMixin } from "../utils";
+import Styles, { buildContainerStyle } from "./styles";
 
 export default class Analog extends TouchReceiverMixin(React.PureComponent) {
-  static defaultProps = {
-    dispatch: () => null,
-    stickerIcon: 'star-three-points',
-    analogDeadZone: 33,
-    analogStickMax: 32767,
-  };
-
-  static propTypes = {
-    x: Types.number.isRequired,
-    y: Types.number.isRequired,
-    size: Types.number.isRequired,
-    emitX: Types.string.isRequired,
-    emitY: Types.string.isRequired,
-    theme: Types.controllerTheme.isRequired,
-    style: Types.any,
-    dispatch: Types.func,
-    stickerIcon: Types.string,
-    analogDeadZone: Types.number,
-    analogStickMax: Types.number,
-  };
-
   static getDerivedStateFromProps({ x, y, size }, { centerX, centerY, halfSize }) {
     if (halfSize !== size / 2 || x + size / 2 !== centerX || y + size / 2 !== centerY) {
       return {
@@ -52,22 +31,27 @@ export default class Analog extends TouchReceiverMixin(React.PureComponent) {
 
   analogMove(position) {
     const { centerX, centerY, halfSize } = this.state;
-    const {
-      dispatch, emitX, emitY, analogDeadZone, analogStickMax,
-    } = this.props;
+    const { dispatch, emitX, emitY, analogDeadZone, analogStickMax } = this.props;
     const clampedPosition = {
       x: Math.min(halfSize, Math.max(-halfSize, position.x - centerX)),
       y: Math.min(halfSize, Math.max(-halfSize, position.y - centerY)),
     };
     // noinspection JSSuspiciousNameCombination
-    if (Math.abs(clampedPosition.x) >= (analogDeadZone / 100) * halfSize
-      || Math.abs(clampedPosition.y) >= (analogDeadZone / 100) * halfSize) {
-      if (clampedPosition.x !== this.translation.x._value
-        || clampedPosition.y !== this.translation.y._value) {
-        dispatch({
-          [emitX]: Math.round((clampedPosition.x / halfSize) * analogStickMax),
-          [emitY]: Math.round((clampedPosition.y / halfSize) * analogStickMax),
-        }, false);
+    if (
+      Math.abs(clampedPosition.x) >= (analogDeadZone / 100) * halfSize ||
+      Math.abs(clampedPosition.y) >= (analogDeadZone / 100) * halfSize
+    ) {
+      if (
+        clampedPosition.x !== this.translation.x._value ||
+        clampedPosition.y !== this.translation.y._value
+      ) {
+        dispatch(
+          {
+            [emitX]: Math.round((clampedPosition.x / halfSize) * analogStickMax),
+            [emitY]: Math.round((clampedPosition.y / halfSize) * analogStickMax),
+          },
+          false,
+        );
         this.translation.setValue(clampedPosition);
       }
     } else {
@@ -77,12 +61,14 @@ export default class Analog extends TouchReceiverMixin(React.PureComponent) {
 
   analogReset() {
     const { dispatch, emitX, emitY } = this.props;
-    if (this.translation.x._value !== 0
-      || this.translation.y._value !== 0) {
-      dispatch({
-        [emitX]: 0,
-        [emitY]: 0,
-      }, true);
+    if (this.translation.x._value !== 0 || this.translation.y._value !== 0) {
+      dispatch(
+        {
+          [emitX]: 0,
+          [emitY]: 0,
+        },
+        true,
+      );
       this.translation.setValue({
         x: 0,
         y: 0,
@@ -118,25 +104,15 @@ export default class Analog extends TouchReceiverMixin(React.PureComponent) {
   }
 
   render() {
-    const {
-      x, y, size, theme, stickerIcon, style, ...viewProps
-    } = this.props;
+    const { x, y, size, theme, stickerIcon, style, ...viewProps } = this.props;
     const knobSize = size * 0.75;
     return (
       <Animated.View {...viewProps} style={[buildContainerStyle(x, y, size), style]}>
         <View style={Styles.overlayContainer}>
-          <SvgXml
-            xml={theme.pad}
-            width={size}
-            height={size}
-          />
+          <SvgXml xml={theme.pad} width={size} height={size} />
         </View>
         <Animated.View style={{ transform: this.translation.getTranslateTransform() }}>
-          <SvgXml
-            xml={theme.knob}
-            width={knobSize}
-            height={knobSize}
-          />
+          <SvgXml xml={theme.knob} width={knobSize} height={knobSize} />
           <View style={Styles.overlayContainer}>
             <MaterialIcon name={stickerIcon} size={knobSize * 0.5} />
           </View>
@@ -145,3 +121,24 @@ export default class Analog extends TouchReceiverMixin(React.PureComponent) {
     );
   }
 }
+
+Analog.propTypes = {
+  x: Types.number.isRequired,
+  y: Types.number.isRequired,
+  size: Types.number.isRequired,
+  emitX: Types.string.isRequired,
+  emitY: Types.string.isRequired,
+  theme: Types.controllerTheme.isRequired,
+  style: Types.any,
+  dispatch: Types.func,
+  stickerIcon: Types.string,
+  analogDeadZone: Types.number,
+  analogStickMax: Types.number,
+};
+
+Analog.defaultProps = {
+  dispatch: () => null,
+  stickerIcon: "star-three-points",
+  analogDeadZone: 33,
+  analogStickMax: 32767,
+};

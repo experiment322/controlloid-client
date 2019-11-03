@@ -1,6 +1,6 @@
-import { createActions, createReducer } from 'reduxsauce';
-import { DarkTheme } from '../interface/themes';
-import { ControlloidTheme } from '../lib/controller/themes';
+import { createActions, createReducer } from "reduxsauce";
+import { DarkTheme } from "../interface/themes";
+import { ControlloidTheme } from "../lib/controller/themes";
 
 const INITIAL_STATE = {
   controllerTheme: ControlloidTheme,
@@ -11,11 +11,11 @@ const INITIAL_STATE = {
 };
 
 export const { Types, Creators: Actions } = createActions({
-  setControllerTheme: ['theme'],
-  setApplicationTheme: ['theme'],
-  setAnalogDeadZone: ['value'],
-  setAnalogStickMax: ['value'],
-  setSocketMinLatency: ['value'],
+  setControllerTheme: ["theme"],
+  setApplicationTheme: ["theme"],
+  setAnalogDeadZone: ["value"],
+  setAnalogStickMax: ["value"],
+  setSocketMinLatency: ["value"],
   setDefaults: null,
 });
 

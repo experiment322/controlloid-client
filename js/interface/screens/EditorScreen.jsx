@@ -1,21 +1,17 @@
-import _ from 'lodash';
-import React from 'react';
-import KeepAwake from 'react-native-keep-awake';
-import Orientation from 'react-native-orientation-locker';
-import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { connect } from 'react-redux';
-import { State, TapGestureHandler } from 'react-native-gesture-handler';
-import {
-  List, Modal, Portal, Surface,
-} from 'react-native-paper';
-import {
-  Dimensions, ScrollView, StatusBar, View,
-} from 'react-native';
-import Styles from '../styles';
-import * as Types from '../../types';
-import { Components } from '../../lib/controller';
-import { LayoutsActions } from '../../redux';
-import { ComponentEditorBox } from '../components';
+import _ from "lodash";
+import React from "react";
+import KeepAwake from "react-native-keep-awake";
+import Orientation from "react-native-orientation-locker";
+import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
+import { connect } from "react-redux";
+import { State, TapGestureHandler } from "react-native-gesture-handler";
+import { List, Modal, Portal, Surface } from "react-native-paper";
+import { Dimensions, ScrollView, StatusBar, View } from "react-native";
+import Styles from "../styles";
+import * as Types from "../../types";
+import { Components } from "../../lib/controller";
+import { LayoutsActions } from "../../redux";
+import { ComponentEditorBox } from "../components";
 
 const MINIMUM_SIZE = 50;
 const MAXIMUM_SIZE = 150;
@@ -25,8 +21,10 @@ const DEFAULT_CONTROL_SIZE = {
 };
 
 function clampComponent(component) {
-  const { props: { x, y, size } } = component;
-  const { width, height } = Dimensions.get('window');
+  const {
+    props: { x, y, size },
+  } = component;
+  const { width, height } = Dimensions.get("window");
   const clampedSize = Math.min(Math.max(size, MINIMUM_SIZE), MAXIMUM_SIZE);
   const clampedX = Math.min(Math.max(x, 0), width - clampedSize);
   const clampedY = Math.min(Math.max(y, 0), height - clampedSize);
@@ -42,13 +40,6 @@ function clampComponent(component) {
 }
 
 class EditorScreen extends React.Component {
-  static propTypes = {
-    layouts: Types.objectOfControllerLayouts.isRequired,
-    createLayout: Types.func.isRequired,
-    controllerTheme: Types.controllerTheme.isRequired,
-    navigation: Types.navigation.isRequired,
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -63,13 +54,13 @@ class EditorScreen extends React.Component {
     KeepAwake.activate();
     StatusBar.setHidden(true);
     Orientation.lockToLandscape();
-    this.setState({ layout: _.cloneDeep(layouts[navigation.getParam('editedLayout')]) });
+    this.setState({ layout: _.cloneDeep(layouts[navigation.getParam("editedLayout")]) });
   }
 
   componentWillUnmount() {
     const { layout } = this.state;
     const { createLayout, navigation } = this.props;
-    createLayout(navigation.getParam('editedLayout'), layout);
+    createLayout(navigation.getParam("editedLayout"), layout);
     Orientation.unlockAllOrientations();
     StatusBar.setHidden(false);
     KeepAwake.deactivate();
@@ -106,7 +97,7 @@ class EditorScreen extends React.Component {
   };
 
   addComponent = (data) => {
-    const { width, height } = Dimensions.get('window');
+    const { width, height } = Dimensions.get("window");
     const componentSize = _.defaultTo(DEFAULT_CONTROL_SIZE[data.type], MINIMUM_SIZE);
     const component = {
       id: _.now(),
@@ -122,14 +113,15 @@ class EditorScreen extends React.Component {
     this.closeComponentPicker();
   };
 
-  renderComponents = () => Components.map(component => (
-    <List.Item
-      key={component.name}
-      title={component.name}
-      left={props => <MaterialIcon {...props} size={48} name={component.props.stickerIcon} />}
-      onPress={() => this.addComponent(component)}
-    />
-  ));
+  renderComponents = () =>
+    Components.map((component) => (
+      <List.Item
+        key={component.name}
+        title={component.name}
+        left={(props) => <MaterialIcon {...props} size={48} name={component.props.stickerIcon} />}
+        onPress={() => this.addComponent(component)}
+      />
+    ));
 
   render() {
     const { layout, picking, activeComponentId } = this.state;
@@ -137,29 +129,26 @@ class EditorScreen extends React.Component {
     return (
       <>
         <View style={Styles.fullScreen}>
-          <TapGestureHandler
-            onHandlerStateChange={this.handleScreenTap}
-          >
+          <TapGestureHandler onHandlerStateChange={this.handleScreenTap}>
             <View style={[Styles.absoluteFill, Styles.centeredContent]}>
               <MaterialIcon name="gesture-tap" color="white" size={64} />
             </View>
           </TapGestureHandler>
-          {layout && layout.components.map(component => (
-            <ComponentEditorBox
-              key={component.id}
-              theme={controllerTheme}
-              focused={activeComponentId === component.id}
-              component={component}
-              onUpdate={this.updateComponent}
-            />
-          ))}
+          {layout &&
+            layout.components.map((component) => (
+              <ComponentEditorBox
+                key={component.id}
+                theme={controllerTheme}
+                focused={activeComponentId === component.id}
+                component={component}
+                onUpdate={this.updateComponent}
+              />
+            ))}
         </View>
         <Portal>
           <Modal visible={picking} onDismiss={this.closeComponentPicker}>
             <Surface style={Styles.pickerModal}>
-              <ScrollView>
-                {this.renderComponents()}
-              </ScrollView>
+              <ScrollView>{this.renderComponents()}</ScrollView>
             </Surface>
           </Modal>
         </Portal>
@@ -168,7 +157,14 @@ class EditorScreen extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+EditorScreen.propTypes = {
+  layouts: Types.objectOfControllerLayouts.isRequired,
+  createLayout: Types.func.isRequired,
+  controllerTheme: Types.controllerTheme.isRequired,
+  navigation: Types.navigation.isRequired,
+};
+
+const mapStateToProps = (state) => ({
   layouts: state.layouts.layouts,
   controllerTheme: state.preferences.controllerTheme,
 });
@@ -177,4 +173,7 @@ const mapDispatchToProps = {
   createLayout: LayoutsActions.createLayout,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditorScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(EditorScreen);

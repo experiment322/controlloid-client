@@ -1,21 +1,8 @@
-import React from 'react';
-import { PanGestureHandler, PinchGestureHandler, State } from 'react-native-gesture-handler';
-import * as Types from '../../types';
+import React from "react";
+import { PanGestureHandler, PinchGestureHandler, State } from "react-native-gesture-handler";
+import * as Types from "../../types";
 
 export default class GestureHandler extends React.PureComponent {
-  static defaultProps = {
-    enabled: true,
-  };
-
-  static propTypes = {
-    children: Types.node.isRequired,
-    onPanEvent: Types.func.isRequired,
-    onPinchEvent: Types.func.isRequired,
-    onGestureBegin: Types.func.isRequired,
-    onGestureTerminate: Types.func.isRequired,
-    enabled: Types.bool,
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -43,9 +30,7 @@ export default class GestureHandler extends React.PureComponent {
 
   render() {
     const { activeGestureCount } = this.state;
-    const {
-      children, onPanEvent, onPinchEvent, enabled,
-    } = this.props;
+    const { children, onPanEvent, onPinchEvent, enabled } = this.props;
     return (
       <PanGestureHandler
         ref={this.panRef}
@@ -69,3 +54,16 @@ export default class GestureHandler extends React.PureComponent {
     );
   }
 }
+
+GestureHandler.propTypes = {
+  children: Types.node.isRequired,
+  onPanEvent: Types.func.isRequired,
+  onPinchEvent: Types.func.isRequired,
+  onGestureBegin: Types.func.isRequired,
+  onGestureTerminate: Types.func.isRequired,
+  enabled: Types.bool,
+};
+
+GestureHandler.defaultProps = {
+  enabled: true,
+};

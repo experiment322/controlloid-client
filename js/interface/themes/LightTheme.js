@@ -1,10 +1,10 @@
-import { DefaultTheme } from 'react-native-paper';
+import { DefaultTheme } from "react-native-paper";
 
 export default {
   ...DefaultTheme,
-  name: 'Light',
+  name: "Light",
   colors: {
     ...DefaultTheme.colors,
-    primary: '#4da100',
+    primary: "#4da100",
   },
 };

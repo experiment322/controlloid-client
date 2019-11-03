@@ -1,17 +1,9 @@
-import React from 'react';
-import { HelperText, Surface, TextInput } from 'react-native-paper';
-import Styles from '../styles';
-import * as Types from '../../types';
+import React from "react";
+import { HelperText, Surface, TextInput } from "react-native-paper";
+import Styles from "../styles";
+import * as Types from "../../types";
 
 export default class PreferenceInputCard extends React.PureComponent {
-  static propTypes = {
-    name: Types.string.isRequired,
-    value: Types.string.isRequired,
-    helperText: Types.string.isRequired,
-    onValidate: Types.func.isRequired,
-    onSubmit: Types.func.isRequired,
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -74,10 +66,16 @@ export default class PreferenceInputCard extends React.PureComponent {
           onChangeText={this.setText}
           onBlur={this.submitText}
         />
-        <HelperText type="info">
-          {helperText}
-        </HelperText>
+        <HelperText type="info">{helperText}</HelperText>
       </Surface>
     );
   }
 }
+
+PreferenceInputCard.propTypes = {
+  name: Types.string.isRequired,
+  value: Types.string.isRequired,
+  helperText: Types.string.isRequired,
+  onValidate: Types.func.isRequired,
+  onSubmit: Types.func.isRequired,
+};

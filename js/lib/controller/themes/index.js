@@ -1,1 +1,1 @@
-export { default as ControlloidTheme } from './ControlloidTheme';
+export { default as ControlloidTheme } from "./ControlloidTheme";

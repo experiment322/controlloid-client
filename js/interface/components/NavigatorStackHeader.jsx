@@ -1,6 +1,6 @@
-import React from 'react';
-import { Appbar } from 'react-native-paper';
-import * as Types from '../../types';
+import React from "react";
+import { Appbar } from "react-native-paper";
+import * as Types from "../../types";
 
 const NavigatorStackHeader = ({ title, onAction }) => (
   <Appbar.Header>

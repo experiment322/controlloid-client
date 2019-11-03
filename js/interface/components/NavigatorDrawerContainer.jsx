@@ -1,18 +1,16 @@
-import React from 'react';
-import { ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-navigation';
-import { Drawer, Surface } from 'react-native-paper';
-import Styles from '../styles';
-import * as Types from '../../types';
+import React from "react";
+import { ScrollView } from "react-native";
+import { SafeAreaView } from "react-navigation";
+import { Drawer, Surface } from "react-native-paper";
+import Styles from "../styles";
+import * as Types from "../../types";
 
 const insets = {
-  top: 'always',
-  horizontal: 'never',
+  top: "always",
+  horizontal: "never",
 };
 
-const NavigatorDrawerContainer = ({
-  items, activeItemKey, getLabel, renderIcon, onItemPress,
-}) => (
+const NavigatorDrawerContainer = ({ items, activeItemKey, getLabel, renderIcon, onItemPress }) => (
   <ScrollView contentContainerStyle={Styles.flexGrowOne}>
     <SafeAreaView style={Styles.flexOne} forceInset={insets}>
       <Surface style={Styles.flexOne}>

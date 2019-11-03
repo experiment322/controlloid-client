@@ -11,4 +11,5 @@
         android:contentDescription="@string/app_name"
         android:scaleType="fitCenter"
         android:src="@drawable/launch_screen" />
+
 </RelativeLayout>

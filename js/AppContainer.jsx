@@ -1,9 +1,9 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Provider as PaperProvider } from 'react-native-paper';
-import { createAppContainer, createDrawerNavigator, createStackNavigator } from 'react-navigation';
-import * as Types from './types';
-import { NavigatorDrawerContainer, NavigatorStackHeader } from './interface/components';
+import React from "react";
+import { connect } from "react-redux";
+import { Provider as PaperProvider } from "react-native-paper";
+import { createAppContainer, createDrawerNavigator, createStackNavigator } from "react-navigation";
+import * as Types from "./types";
+import { NavigatorDrawerContainer, NavigatorStackHeader } from "./interface/components";
 import {
   ConnectionScreen,
   ControllerScreen,
@@ -11,7 +11,7 @@ import {
   HomeScreen,
   LayoutsScreen,
   PreferencesScreen,
-} from './interface/screens';
+} from "./interface/screens";
 
 const HomeStackNavigator = createStackNavigator({
   Home: {
@@ -63,53 +63,52 @@ const PreferencesStackNavigator = createStackNavigator({
 
 const lockDrawerOnScreen = (screen, { index, routes }) => {
   const { routeName: currentScreen } = routes[index];
-  return currentScreen === screen ? 'locked-closed' : 'unlocked';
+  return currentScreen === screen ? "locked-closed" : "unlocked";
 };
 
-const AppNavigator = createDrawerNavigator({
-  HomeScreenContainer: {
-    screen: HomeStackNavigator,
-    navigationOptions: () => ({
-      title: 'Home',
-      drawerIcon: 'home',
-      drawerLockMode: 'unlocked',
-    }),
+const AppNavigator = createDrawerNavigator(
+  {
+    HomeScreenContainer: {
+      screen: HomeStackNavigator,
+      navigationOptions: () => ({
+        title: "Home",
+        drawerIcon: "home",
+        drawerLockMode: "unlocked",
+      }),
+    },
+    LayoutsScreenContainer: {
+      screen: LayoutsStackNavigator,
+      navigationOptions: ({ navigation: { state: navigationState } }) => ({
+        title: "Layouts",
+        drawerIcon: "layers",
+        drawerLockMode: lockDrawerOnScreen("Editor", navigationState),
+      }),
+    },
+    ConnectionScreenContainer: {
+      screen: ConnectionStackNavigator,
+      navigationOptions: ({ navigation: { state: navigationState } }) => ({
+        title: "Controller",
+        drawerIcon: "gamepad",
+        drawerLockMode: lockDrawerOnScreen("Controller", navigationState),
+      }),
+    },
+    PreferencesScreenContainer: {
+      screen: PreferencesStackNavigator,
+      navigationOptions: () => ({
+        title: "Preferences",
+        drawerIcon: "settings",
+        drawerLockMode: "unlocked",
+      }),
+    },
   },
-  LayoutsScreenContainer: {
-    screen: LayoutsStackNavigator,
-    navigationOptions: ({ navigation: { state: navigationState } }) => ({
-      title: 'Layouts',
-      drawerIcon: 'layers',
-      drawerLockMode: lockDrawerOnScreen('Editor', navigationState),
-    }),
+  {
+    contentComponent: NavigatorDrawerContainer,
   },
-  ConnectionScreenContainer: {
-    screen: ConnectionStackNavigator,
-    navigationOptions: ({ navigation: { state: navigationState } }) => ({
-      title: 'Controller',
-      drawerIcon: 'gamepad',
-      drawerLockMode: lockDrawerOnScreen('Controller', navigationState),
-    }),
-  },
-  PreferencesScreenContainer: {
-    screen: PreferencesStackNavigator,
-    navigationOptions: () => ({
-      title: 'Preferences',
-      drawerIcon: 'settings',
-      drawerLockMode: 'unlocked',
-    }),
-  },
-}, {
-  contentComponent: NavigatorDrawerContainer,
-});
+);
 
 const AppContainer = createAppContainer(AppNavigator);
 
 class ThemedAppContainer extends React.PureComponent {
-  static propTypes = {
-    applicationTheme: Types.applicationTheme.isRequired,
-  };
-
   render() {
     const { applicationTheme } = this.props;
     return (
@@ -120,7 +119,11 @@ class ThemedAppContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+ThemedAppContainer.propTypes = {
+  applicationTheme: Types.applicationTheme.isRequired,
+};
+
+const mapStateToProps = (state) => ({
   applicationTheme: state.preferences.applicationTheme,
 });
 

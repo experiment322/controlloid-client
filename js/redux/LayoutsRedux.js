@@ -1,5 +1,5 @@
-import _ from 'lodash';
-import { createActions, createReducer } from 'reduxsauce';
+import _ from "lodash";
+import { createActions, createReducer } from "reduxsauce";
 
 const INITIAL_STATE = {
   layouts: {},
@@ -7,9 +7,9 @@ const INITIAL_STATE = {
 };
 
 export const { Types, Creators: Actions } = createActions({
-  createLayout: ['name', 'layout'],
-  deleteLayout: ['name'],
-  setActiveLayout: ['name'],
+  createLayout: ["name", "layout"],
+  deleteLayout: ["name"],
+  setActiveLayout: ["name"],
 });
 
 export const Reducer = createReducer(INITIAL_STATE, {

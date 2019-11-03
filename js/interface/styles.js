@@ -1,14 +1,14 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   screen: {
     flex: 1,
     paddingHorizontal: 16,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   fullScreen: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: "black",
   },
   elevate: {
     elevation: 1,
@@ -31,18 +31,18 @@ export default StyleSheet.create({
   },
   centeredText: {
     fontSize: 18,
-    textAlign: 'center',
+    textAlign: "center",
   },
   centeredContent: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   absoluteFill: {
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    position: 'absolute',
+    position: "absolute",
   },
 });

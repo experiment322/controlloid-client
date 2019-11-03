@@ -1,10 +1,19 @@
-import PropTypes from 'prop-types';
-import { ViewPropTypes } from 'react-native';
+import PropTypes from "prop-types";
+import { ViewPropTypes } from "react-native";
 
 export const { style } = ViewPropTypes;
 
 export const {
-  any, bool, func, node, number, string, shape, object, objectOf, arrayOf,
+  any,
+  bool,
+  func,
+  node,
+  number,
+  string,
+  shape,
+  object,
+  objectOf,
+  arrayOf,
 } = PropTypes;
 
 export const namedShape = shape({

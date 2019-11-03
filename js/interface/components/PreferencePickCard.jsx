@@ -1,5 +1,5 @@
-import React from 'react';
-import { ScrollView, TextInput as NativeTextInput } from 'react-native';
+import React from "react";
+import { ScrollView, TextInput as NativeTextInput } from "react-native";
 import {
   HelperText,
   List,
@@ -8,19 +8,11 @@ import {
   Surface,
   TextInput,
   TouchableRipple,
-} from 'react-native-paper';
-import Styles from '../styles';
-import * as Types from '../../types';
+} from "react-native-paper";
+import Styles from "../styles";
+import * as Types from "../../types";
 
 export default class PreferencePickCard extends React.PureComponent {
-  static propTypes = {
-    name: Types.string.isRequired,
-    value: Types.namedShape.isRequired,
-    options: Types.arrayOfNamedShapes.isRequired,
-    helperText: Types.string.isRequired,
-    onPick: Types.func.isRequired,
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -43,14 +35,12 @@ export default class PreferencePickCard extends React.PureComponent {
   renderOptions = () => {
     const { value, options } = this.props;
     return options.map((option) => {
-      const optionStatusIcon = option.name === value.name
-        ? 'radiobox-marked'
-        : 'radiobox-blank';
+      const optionStatusIcon = option.name === value.name ? "radiobox-marked" : "radiobox-blank";
       return (
         <List.Item
           key={option.name}
           title={option.name}
-          right={props => <List.Icon {...props} icon={optionStatusIcon} />}
+          right={(props) => <List.Icon {...props} icon={optionStatusIcon} />}
           onPress={() => this.pickOption(option)}
         />
       );
@@ -66,21 +56,17 @@ export default class PreferencePickCard extends React.PureComponent {
           mode="outlined"
           label={name}
           value={value.name}
-          render={props => (
+          render={(props) => (
             <TouchableRipple onPress={this.startPicking}>
               <NativeTextInput {...props} editable={false} />
             </TouchableRipple>
           )}
         />
-        <HelperText type="info">
-          {helperText}
-        </HelperText>
+        <HelperText type="info">{helperText}</HelperText>
         <Portal>
           <Modal visible={picking} onDismiss={this.stopPicking}>
             <Surface style={Styles.pickerModal}>
-              <ScrollView>
-                {this.renderOptions()}
-              </ScrollView>
+              <ScrollView>{this.renderOptions()}</ScrollView>
             </Surface>
           </Modal>
         </Portal>
@@ -88,3 +74,11 @@ export default class PreferencePickCard extends React.PureComponent {
     );
   }
 }
+
+PreferencePickCard.propTypes = {
+  name: Types.string.isRequired,
+  value: Types.namedShape.isRequired,
+  options: Types.arrayOfNamedShapes.isRequired,
+  helperText: Types.string.isRequired,
+  onPick: Types.func.isRequired,
+};

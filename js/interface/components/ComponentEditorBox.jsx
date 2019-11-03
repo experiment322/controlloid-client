@@ -1,23 +1,14 @@
-import _ from 'lodash';
-import React from 'react';
-import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Animated } from 'react-native';
-import {
-  PanGestureHandler, State, TapGestureHandler,
-} from 'react-native-gesture-handler';
-import * as Types from '../../types';
-import { Controls } from '../../lib/controller';
+import _ from "lodash";
+import React from "react";
+import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
+import { Animated } from "react-native";
+import { PanGestureHandler, State, TapGestureHandler } from "react-native-gesture-handler";
+import * as Types from "../../types";
+import { Controls } from "../../lib/controller";
 
 const BUTTON_SIZE = 32;
 
 export default class ComponentEditorBox extends React.PureComponent {
-  static propTypes = {
-    theme: Types.controllerTheme.isRequired,
-    focused: Types.bool.isRequired,
-    component: Types.component.isRequired,
-    onUpdate: Types.func.isRequired,
-  };
-
   constructor(props) {
     super(props);
     this.deltaSize = new Animated.Value(0);
@@ -33,7 +24,12 @@ export default class ComponentEditorBox extends React.PureComponent {
   };
 
   renderDeleteButton = () => {
-    const { focused, component: { props: { x, y } } } = this.props;
+    const {
+      focused,
+      component: {
+        props: { x, y },
+      },
+    } = this.props;
     if (!focused) {
       return null;
     }
@@ -41,13 +37,10 @@ export default class ComponentEditorBox extends React.PureComponent {
       <TapGestureHandler onHandlerStateChange={this.onDeleteStateChange}>
         <Animated.View
           style={{
-            position: 'absolute',
+            position: "absolute",
             top: Animated.add(y - BUTTON_SIZE, Animated.divide(this.deltaSize, -2)),
             left: Animated.add(x - BUTTON_SIZE, Animated.divide(this.deltaSize, -2)),
-            transform: [
-              { translateY: this.translationY },
-              { translateX: this.translationX },
-            ],
+            transform: [{ translateY: this.translationY }, { translateX: this.translationX }],
           }}
         >
           <MaterialIcon name="delete-outline" color="firebrick" size={BUTTON_SIZE} />
@@ -67,7 +60,12 @@ export default class ComponentEditorBox extends React.PureComponent {
   };
 
   renderResizeButton = () => {
-    const { focused, component: { props: { x, y, size } } } = this.props;
+    const {
+      focused,
+      component: {
+        props: { x, y, size },
+      },
+    } = this.props;
     if (!focused) {
       return null;
     }
@@ -84,13 +82,10 @@ export default class ComponentEditorBox extends React.PureComponent {
       >
         <Animated.View
           style={{
-            position: 'absolute',
+            position: "absolute",
             top: Animated.add(y + size, Animated.divide(this.deltaSize, 2)),
             left: Animated.add(x + size, Animated.divide(this.deltaSize, 2)),
-            transform: [
-              { translateY: this.translationY },
-              { translateX: this.translationX },
-            ],
+            transform: [{ translateY: this.translationY }, { translateX: this.translationX }],
           }}
         >
           <MaterialIcon name="arrow-expand-horizontal" color="goldenrod" size={BUTTON_SIZE} />
@@ -106,11 +101,7 @@ export default class ComponentEditorBox extends React.PureComponent {
     }
   };
 
-  onMoveStateChange = ({
-    nativeEvent: {
-      oldState, state, translationX, translationY,
-    },
-  }) => {
+  onMoveStateChange = ({ nativeEvent: { oldState, state, translationX, translationY } }) => {
     const { focused, component, onUpdate } = this.props;
     if (state === State.ACTIVE) {
       if (!focused) {
@@ -135,9 +126,7 @@ export default class ComponentEditorBox extends React.PureComponent {
     );
     return (
       <>
-        <TapGestureHandler
-          onHandlerStateChange={this.onFocusStateChange}
-        >
+        <TapGestureHandler onHandlerStateChange={this.onFocusStateChange}>
           <PanGestureHandler
             onGestureEvent={Animated.event([
               {
@@ -154,8 +143,8 @@ export default class ComponentEditorBox extends React.PureComponent {
               theme={theme}
               style={{
                 borderWidth: 1,
-                borderColor: 'lime',
-                backgroundColor: focused ? '#00ff0064' : 'transparent',
+                borderColor: "lime",
+                backgroundColor: focused ? "#00ff0064" : "transparent",
                 transform: [
                   { scale },
                   { translateY: Animated.divide(this.translationY, scale) },
@@ -171,3 +160,10 @@ export default class ComponentEditorBox extends React.PureComponent {
     );
   }
 }
+
+ComponentEditorBox.propTypes = {
+  theme: Types.controllerTheme.isRequired,
+  focused: Types.bool.isRequired,
+  component: Types.component.isRequired,
+  onUpdate: Types.func.isRequired,
+};

@@ -1,34 +1,22 @@
-import _ from 'lodash';
-import React from 'react';
-import axios from 'axios';
-import isUrl from 'is-url';
-import { connect } from 'react-redux';
-import { FlatList } from 'react-native';
-import { TextDecoder } from 'text-encoding';
-import { NetworkInfo } from 'react-native-network-info';
-import {
-  Button, List, Surface, Text, TextInput,
-} from 'react-native-paper';
-import Styles from '../styles';
-import * as Types from '../../types';
+import _ from "lodash";
+import React from "react";
+import axios from "axios";
+import isUrl from "is-url";
+import { connect } from "react-redux";
+import { FlatList } from "react-native";
+import { TextDecoder } from "text-encoding";
+import { NetworkInfo } from "react-native-network-info";
+import { Button, List, Surface, Text, TextInput } from "react-native-paper";
+import Styles from "../styles";
+import * as Types from "../../types";
 
 class ConnectionScreen extends React.Component {
-  static defaultProps = {
-    activeLayout: null,
-  };
-
-  static propTypes = {
-    activeLayout: Types.string,
-    socketMinLatency: Types.number.isRequired,
-    navigation: Types.navigation.isRequired,
-  };
-
   constructor(props) {
     super(props);
     this.state = {
       eventCodes: null,
       socket: null,
-      socketAddress: '',
+      socketAddress: "",
       connecting: false,
       isSocketConnected: false,
       discovering: false,
@@ -40,12 +28,12 @@ class ConnectionScreen extends React.Component {
     const { navigation } = this.props;
     const { eventCodes, isSocketConnected } = this.state;
     if (isSocketConnected && eventCodes) {
-      navigation.navigate('Controller', {
+      navigation.navigate("Controller", {
         socketClose: this.socketClose,
         socketDispatch: this.socketDispatch,
       });
     } else if (prevState.isSocketConnected && !isSocketConnected) {
-      navigation.navigate('Connection');
+      navigation.navigate("Connection");
     }
   }
 
@@ -78,24 +66,27 @@ class ConnectionScreen extends React.Component {
     }
   };
 
-  setSocketAddress = socketAddress => this.setState({ socketAddress });
+  setSocketAddress = (socketAddress) => this.setState({ socketAddress });
 
   connectToSocket = () => {
     const { socketAddress } = this.state;
     this.setState({
       socket: _.assign(new WebSocket(`${socketAddress}`), {
-        onopen: () => this.setState({
-          connecting: true,
-          isSocketConnected: true,
-        }),
-        onclose: () => this.setState({
-          connecting: false,
-          isSocketConnected: false,
-        }),
-        onmessage: message => this.setState({
-          connecting: false,
-          eventCodes: JSON.parse(new TextDecoder('utf8').decode(message.data)),
-        }),
+        onopen: () =>
+          this.setState({
+            connecting: true,
+            isSocketConnected: true,
+          }),
+        onclose: () =>
+          this.setState({
+            connecting: false,
+            isSocketConnected: false,
+          }),
+        onmessage: (message) =>
+          this.setState({
+            connecting: false,
+            eventCodes: JSON.parse(new TextDecoder("utf8").decode(message.data)),
+          }),
       }),
       connecting: true,
     });
@@ -105,7 +96,7 @@ class ConnectionScreen extends React.Component {
     <List.Item
       title={item}
       onPress={() => this.setState({ socketAddress: item }, this.connectToSocket)}
-      left={props => <List.Icon {...props} icon="computer" />}
+      left={(props) => <List.Icon {...props} icon="computer" />}
     />
   );
 
@@ -114,35 +105,38 @@ class ConnectionScreen extends React.Component {
     return (
       <Surface style={Styles.centeredContent}>
         <Text style={Styles.centeredText}>
-          {discovering ? 'Scanning LAN servers...' : 'Pull to scan for LAN servers'}
+          {discovering ? "Scanning LAN servers..." : "Pull to scan for LAN servers"}
         </Text>
       </Surface>
     );
   };
 
   scanLANServers = () => {
-    this.setState({
-      discovering: true,
-      discoveredServers: [],
-    }, async () => {
-      const deviceIp = await NetworkInfo.getIPV4Address();
-      if (deviceIp) {
-        const network = deviceIp.substring(0, deviceIp.lastIndexOf('.'));
-        const requests = _.range(1, 255)
-          .map(host => axios.head(`http://${network}.${host}:31415`, { timeout: 500 })
-            .then(({ config: { url } }) => url)
-            .catch(() => null));
-        const results = await Promise.all(requests);
-        this.setState({ discoveredServers: _.filter(results) });
-      }
-      this.setState({ discovering: false });
-    });
+    this.setState(
+      {
+        discovering: true,
+        discoveredServers: [],
+      },
+      async () => {
+        const deviceIp = await NetworkInfo.getIPV4Address();
+        if (deviceIp) {
+          const network = deviceIp.substring(0, deviceIp.lastIndexOf("."));
+          const requests = _.range(1, 255).map((host) =>
+            axios
+              .head(`http://${network}.${host}:31415`, { timeout: 500 })
+              .then(({ config: { url } }) => url)
+              .catch(() => null),
+          );
+          const results = await Promise.all(requests);
+          this.setState({ discoveredServers: _.filter(results) });
+        }
+        this.setState({ discovering: false });
+      },
+    );
   };
 
   render() {
-    const {
-      connecting, socketAddress, discovering, discoveredServers,
-    } = this.state;
+    const { connecting, socketAddress, discovering, discoveredServers } = this.state;
     const { activeLayout, navigation } = this.props;
 
     if (!activeLayout) {
@@ -152,7 +146,7 @@ class ConnectionScreen extends React.Component {
             icon="layers"
             mode="outlined"
             style={Styles.elevate}
-            onPress={() => navigation.navigate('Layouts')}
+            onPress={() => navigation.navigate("Layouts")}
           >
             SELECT LAYOUT
           </Button>
@@ -196,7 +190,17 @@ class ConnectionScreen extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+ConnectionScreen.propTypes = {
+  activeLayout: Types.string,
+  socketMinLatency: Types.number.isRequired,
+  navigation: Types.navigation.isRequired,
+};
+
+ConnectionScreen.defaultProps = {
+  activeLayout: null,
+};
+
+const mapStateToProps = (state) => ({
   activeLayout: state.layouts.activeLayout,
   socketMinLatency: state.preferences.socketMinLatency,
 });

@@ -17,10 +17,11 @@ module.exports = {
   extends: ["@react-native-community", "airbnb", "plugin:prettier/recommended", "prettier/react"],
   rules: {
     "prettier/prettier": "error",
-    "no-underscore-dangle": "off",
-    "react/forbid-prop-types": "off",
     "import/prefer-default-export": "off",
-    "react/jsx-filename-extension": ["warn", { extensions: [".js", ".jsx"] }],
+    "react/forbid-prop-types": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react-native/no-inline-styles": "off",
+    "no-underscore-dangle": "off",
     "max-len": [
       "warn",
       {
