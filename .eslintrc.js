@@ -7,9 +7,6 @@ module.exports = {
       jsx: true,
     },
   },
-  globals: {
-    __DEV__: "readonly",
-  },
   env: {
     es6: true,
     jest: true,
