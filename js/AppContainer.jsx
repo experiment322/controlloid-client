@@ -1,7 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
+import { createAppContainer } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
+import { createDrawerNavigator } from "react-navigation-drawer";
 import { Provider as PaperProvider } from "react-native-paper";
-import { createAppContainer, createDrawerNavigator, createStackNavigator } from "react-navigation";
 import * as Types from "./types";
 import { NavigatorDrawerContainer, NavigatorStackHeader } from "./interface/components";
 import {

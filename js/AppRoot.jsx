@@ -2,10 +2,11 @@ import React from "react";
 import KeepAwake from "react-native-keep-awake";
 import Orientation from "react-native-orientation-locker";
 import SplashScreen from "react-native-splash-screen";
-import { StatusBar } from "react-native";
 import { PersistGate } from "redux-persist/integration/react";
-import { Provider as StoreProvider } from "react-redux";
+import { ActivityIndicator } from "react-native-paper";
+import { StatusBar, StyleSheet } from "react-native";
 import { gestureHandlerRootHOC } from "react-native-gesture-handler";
+import { Provider as StoreProvider } from "react-redux";
 import AppContainer from "./AppContainer";
 import { configureStore } from "./redux";
 
@@ -21,7 +22,10 @@ class AppRoot extends React.PureComponent {
 
   render() {
     return (
-      <PersistGate loading={null} persistor={persistor}>
+      <PersistGate
+        loading={<ActivityIndicator style={StyleSheet.absoluteFillObject} />}
+        persistor={persistor}
+      >
         <StoreProvider store={store}>
           <AppContainer />
         </StoreProvider>

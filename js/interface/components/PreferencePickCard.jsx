@@ -66,7 +66,7 @@ export default class PreferencePickCard extends React.PureComponent {
         <Portal>
           <Modal visible={picking} onDismiss={this.stopPicking}>
             <Surface style={Styles.pickerModal}>
-              <ScrollView>{this.renderOptions()}</ScrollView>
+              <ScrollView overScrollMode="never">{this.renderOptions()}</ScrollView>
             </Surface>
           </Modal>
         </Portal>

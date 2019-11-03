@@ -11,7 +11,7 @@ const insets = {
 };
 
 const NavigatorDrawerContainer = ({ items, activeItemKey, getLabel, renderIcon, onItemPress }) => (
-  <ScrollView contentContainerStyle={Styles.flexGrowOne}>
+  <ScrollView contentContainerStyle={Styles.flexGrowOne} overScrollMode="never">
     <SafeAreaView style={Styles.flexOne} forceInset={insets}>
       <Surface style={Styles.flexOne}>
         {items.map((route, index) => {

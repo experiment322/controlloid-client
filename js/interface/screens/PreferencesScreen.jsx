@@ -62,7 +62,7 @@ class PreferencesScreen extends React.Component {
     const { preferencesKey } = this.state;
     return (
       <Surface style={Styles.screen}>
-        <ScrollView key={preferencesKey}>
+        <ScrollView key={preferencesKey} overScrollMode="never">
           <PreferencePickCard
             name="Application theme"
             helperText="Change application appearance"

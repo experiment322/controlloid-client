@@ -148,7 +148,7 @@ class EditorScreen extends React.Component {
         <Portal>
           <Modal visible={picking} onDismiss={this.closeComponentPicker}>
             <Surface style={Styles.pickerModal}>
-              <ScrollView>{this.renderComponents()}</ScrollView>
+              <ScrollView overScrollMode="never">{this.renderComponents()}</ScrollView>
             </Surface>
           </Modal>
         </Portal>

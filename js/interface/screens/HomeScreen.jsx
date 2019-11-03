@@ -6,7 +6,7 @@ import * as Types from "../../types";
 
 const HomeScreen = ({ theme }) => (
   <Surface style={Styles.screen}>
-    <ScrollView>
+    <ScrollView overScrollMode="never">
       <Text>
         {"\nWelcome to Controlloid!\n\n\n" +
           "This application allows you to use your phone as a real controller:\n\n" +
