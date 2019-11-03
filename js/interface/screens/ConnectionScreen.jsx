@@ -96,7 +96,7 @@ class ConnectionScreen extends React.Component {
     <List.Item
       title={item}
       onPress={() => this.setState({ socketAddress: item }, this.connectToSocket)}
-      left={(props) => <List.Icon {...props} icon="computer" />}
+      left={(props) => <List.Icon {...props} icon="laptop" />}
     />
   );
 
