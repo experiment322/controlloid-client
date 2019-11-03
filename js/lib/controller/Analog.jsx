@@ -36,7 +36,6 @@ export default class Analog extends TouchReceiverMixin(React.PureComponent) {
       x: Math.min(halfSize, Math.max(-halfSize, position.x - centerX)),
       y: Math.min(halfSize, Math.max(-halfSize, position.y - centerY)),
     };
-    // noinspection JSSuspiciousNameCombination
     if (
       Math.abs(clampedPosition.x) >= (analogDeadZone / 100) * halfSize ||
       Math.abs(clampedPosition.y) >= (analogDeadZone / 100) * halfSize
