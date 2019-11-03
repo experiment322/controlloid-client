@@ -22,3 +22,12 @@ The server application can be downloaded from the following link.
 * Move, resize and overlap buttons in layout editor
 * Creation of multiple layouts to accommodate different games
 * More to come! (suggestions welcome on GitHub)
+
+## Screenshots
+
+![0](fastlane/metadata/android/en-US/images/phoneScreenshots/0.png)
+![0](fastlane/metadata/android/en-US/images/phoneScreenshots/1.png)
+![0](fastlane/metadata/android/en-US/images/phoneScreenshots/2.png)
+![0](fastlane/metadata/android/en-US/images/phoneScreenshots/3.png)
+![0](fastlane/metadata/android/en-US/images/phoneScreenshots/4.png)
+![0](fastlane/metadata/android/en-US/images/phoneScreenshots/5.png)
