@@ -1,6 +1,7 @@
 <a href="https://liberapay.com/experiment322/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg"></a>
 
 <img alt="F-Droid" src="https://img.shields.io/f-droid/v/com.controlloid?label=f-droid&style=flat"> <img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/experiment322/controlloid-client?label=source&style=flat"> <img alt="GitHub commits since tagged version" src="https://img.shields.io/github/commits-since/experiment322/controlloid-client/latest">
+<a href='https://play.google.com/store/apps/details?id=com.controlloid&hl=en_IN&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
 
 # controlloid-client
 Controlloid is a small open source application that turns your phone into a
